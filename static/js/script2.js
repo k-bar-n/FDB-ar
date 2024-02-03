@@ -139,12 +139,6 @@ document.addEventListener('click', (event) => {
 });
 
 
-
-
-
-
-
-
 // Функция для изменения ширины блоков
 // function initResizer() {
 //     let isResizing = false;
@@ -169,6 +163,7 @@ document.addEventListener('click', (event) => {
 //         }
 //     }
 // }
+
 
 // Функция для изменения ширины блоков
 // function initResizer() {
