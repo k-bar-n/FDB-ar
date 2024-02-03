@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href="{{ url_for('static', filename = 'images/icon.svg') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'images/icon.svg') }}" type="image/x-icon" />
+
+    <link href="{{ url_for('static', filename = 'scc/style0.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename = 'scc/style_main_page.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename = 'scc/style.css') }}" rel="stylesheet" type="text/css" />
+
+    <title>
+      {% block title %}
+        Базовая страница - шаблон
+      {% endblock %}— FDB-ar
+    </title>
+    
+    <script src="{{ url_for('static', filename = 'js/script1.js') }}" defer></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div class="main-image">
+          <img src="{{ url_for('static', filename = 'images/main-image.jpg') }}" style="height: 4.5vw; margin-left: auto; margin-right: auto; border-radius: 2vh;" />
+        </div>
+        <div class="block-menu">
+          <button class="but-menu" onclick="redirectToAnotherPage1()">Главная страница</button>
+          <button class="but-menu" type="menu" onclick="redirectToAnotherPage2()">Карта склада</button>
+          <button class="but-menu" onclick="redirectToAnotherPage3()">Найти крепёж</button>
+          <button class="but-menu" onclick="redirectToAnotherPage4()">... page3 ...</button>
+        </div>
+      </header>
+      <main>
+        {% block content %}
+
+        {% endblock %}
+      </main>
+    </div>
+    <footer>
+      <p>
+        &copy; Веб-сайт FDB-ar разработан Бардиным Константином (<a href="https://vk.com/k_bar_n" class="ssylka">_k_bar_n_</a>)
+      </p>
+    </footer>
+  </body>
+</html>

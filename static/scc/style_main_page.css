@@ -1,0 +1,260 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    /* min-height: 92vh; */
+    /* 100% высоты окна браузера */
+}
+
+
+header {
+    top: 0;
+    width: 100vw;
+    /* position: fixed; */
+    color: black;
+    display: block;
+    justify-content: center;
+    /* margin: 0.5vh; */
+    /* height: 10vw; */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #333;
+    padding-bottom: 1vh;
+
+    /* background-image: url('/static/images/main-image.jpg'); */
+    /* background-size: cover; */
+    /* contain / contain в зависимости от ваших предпочтений */
+
+    /* Другие свойства для настройки внешнего вида фона, например, цвета и позиции */
+
+    /* цвет фона, который будет виден, если изображение не загрузится или не заполнит блок полностью */
+
+    /* background-position: center; */
+    /* позиция изображения по горизонтали и вертикали */
+
+    /* background-repeat: no-repeat; */
+    /* повторение фона */
+
+    /* Применение transition только к свойству transform */
+    transition: background-color 0.5s ease;
+}
+
+header:hover {
+    background-color: #444;
+    opacity: 0.9;
+    transition: 300ms;
+}
+
+.main-image {
+    color: black;
+    display: block;
+    justify-content: center;
+
+    height: 4.5vw;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: -1;
+}
+
+.block-menu {
+    /* margin-top: 0.5vh;
+    margin-bottom: 0.5vh; */
+    /* width: 95vw; */
+    /* o */
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* o */
+    /* background-color: #ffff00; */
+}
+
+.but-menu {
+    margin-left: 3vw;
+    margin-right: 3vw;
+    /* o */
+    width: auto;
+    height: 4.5vw;
+    /* o */
+    cursor: pointer;
+    /* o */
+    background-color: #C4CBFC;
+    font-size: 1.5vw;
+    text-align: center;
+    font-weight: bold;
+    /* border: none; */
+    border-color: #ffb300;
+    border-radius: 5vh;
+    border-width: 0.3vmin;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.but-menu:hover {
+    /* width: 17.1vw; */
+    border-radius: 4vh;
+    border-width: 0.4vmin;
+    /* o */
+    background-color: #fb00ff;
+    transition: 300ms;
+    opacity: 0.9;
+    transform: scale(1.1);
+}
+
+main {
+    /* margin-top: 1vh; */
+    flex: 1;
+    /* justify-content: center;
+    align-items: center; */
+    color: black;
+    display: block;
+    /* justify-content: center; */
+    /* margin: 0.5vh; */
+    width: 100vw;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: #ffb300; */
+
+    padding-top: 1vh;
+    padding-bottom: 10vh;
+    /* padding-left: 1vw;
+    padding-right: 1vw; */
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    /* padding: 1em; */
+    bottom: 0;
+    width: 100vw;
+    height: 8vh;
+    position: fixed;
+    font-size: 1vmax;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Применение transition только к свойству transform */
+    transition: background-color 0.5s ease;
+}
+
+footer:hover {
+    background-color: #444;
+    opacity: 0.9;
+    transition: 300ms;
+}
+
+.ssylka {
+    color: #0066cc;
+    text-decoration: none;
+    /* font-size: small; */
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.ssylka2 {
+    color: #0066cc;
+    text-decoration: underline;
+    /* font-size: small; */
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.container {
+    align-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-evenly;
+}
+
+.stellazh {
+    white-space: nowrap;
+    width: 300px;
+    height: 400px;
+    margin: 5px;
+    background-color: #DB2A2A;
+    cursor: pointer;
+    display: block;
+    justify-content: center;
+    /* Расположение по центру по горизонтали */
+    align-items: center;
+    /* Расположение по центру по вертикали */
+    border-color: #ff5500;
+    border-radius: 5vh;
+    border-width: 0.3vmin;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.stellazh:hover {
+    border-radius: 4vh;
+    border-width: 0.4vmin;
+    /* o */
+    background-color: #fb00ff;
+    transition: 300ms;
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.stellazh-text {
+    /* justify-content: center;
+    align-items: center; */
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+    /* background-color: #dbcf2a; */
+}
+
+.shelfs {
+    align-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-evenly;
+    flex-direction: column; /* Добавлено свойство для вертикального расположения */
+}
+
+.shelf {
+    align-self: center;
+    white-space: nowrap;
+    width: 200px;
+    height: 65px;
+    margin: 5px;
+    background-color: #DB2A2A;
+    cursor: pointer;
+    display: block;
+    justify-content: center;
+    /* Расположение по центру по горизонтали */
+    align-items: center;
+    /* Расположение по центру по вертикали */
+    border-color: #ff5500;
+    border-radius: 5vh;
+    border-width: 0.3vmin;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.shelf:hover {
+    border-radius: 4vh;
+    border-width: 0.4vmin;
+    /* o */
+    background-color: #fb00ff;
+    transition: 300ms;
+    opacity: 0.9;
+    transform: scale(1.1);
+}
+
+.shelf-text {
+    /* justify-content: center;
+    align-items: center; */
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+    /* background-color: #dbcf2a; */
+}

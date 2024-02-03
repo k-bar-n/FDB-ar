@@ -1,0 +1,48 @@
+C:\’–¿Õ»À»Ÿ≈\_»Õƒ»¬»ƒ”¿À‹Õ€… œ–Œ≈ “\project_1\
+|---main.py
+|---static
+|   |---data
+|   |   `---Krepozh.csv
+|   |---fonts
+|   |   |---COPYRIGHT.txt
+|   |   `---GOST_Type_A.ttf
+|   |---images
+|   |   |---404.png
+|   |   |---icon.svg
+|   |   |---icon_0.svg
+|   |   |---main-image.jpg
+|   |   `---main-image_1.jpg
+|   |---js
+|   |   |---script1.js
+|   |   |---script2-3_3.js
+|   |   |---script2.js
+|   |   `---script3-database.js
+|   `---scc
+|       |---style.css
+|       |---style0.css
+|       |---style_main_page.css
+|       `---style_stellazh.css
+`---templates
+    |---base.html
+    |---main_page.html
+    |---not_found.html
+    |---Founder
+    |   `---founder.html
+    |---Map
+    |   |---map.html
+    |   |---St1
+    |   |   `---Mp_st1.html
+    |   |---St2
+    |   |   |---Mp_st2.html
+    |   |   |---Mp_st2_1.html
+    |   |   |---Mp_st2_2.html
+    |   |   |---Mp_st2_3.html
+    |   |   |---Mp_st2_4.html
+    |   |   `---Mp_st2_5.html
+    |   `---St3
+    |       |---Mp_st3.html
+    |       |---Mp_st3_1.html
+    |       |---Mp_st3_2.html
+    |       `---Mp_st3_3.html
+    `---Page3
+        `---page3.html

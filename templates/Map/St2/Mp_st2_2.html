@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Стеллаж 2 — Полка 2
+{% endblock %}
+
+{% block content %}
+  <div class="stellazh-text">
+    <a onclick="redirectToAnotherPage6()" class="ssylka2">Стеллаж 2</a> — Полка 2
+  </div>
+  <div id="main-container">
+    <div id="left-block">
+      <div id="grid-container" style="grid-template-columns: 20px repeat(5, 1fr);"></div>
+      <!-- <div class="resizer" id="resizer"></div> -->
+    </div>
+    <div id="right-block">
+      <div id="block-info">
+        <h2 id="block-title">Выберите ячейку</h2>
+        <p id="block-content">Информация о содержимом ячейки...</p>
+        <div id="info-of-block"></div>
+        <div id="rabota-s-kolichestvom"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Инициализируем генерацию сетки при загрузке страницы
+    window.addEventListener('load', () => {
+      // initResizer()
+      generateGrid(5, 2) // Указываем количество столбцов и строк соответственно
+    })
+  </script>
+  <script src="{{ url_for('static', filename = 'js/script2.js') }}" defer></script>
+  <script src="{{ url_for('static', filename = 'js/script3-database.js') }}" defer></script>
+  <link href="{{ url_for('static', filename = 'scc/style_stellazh.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}

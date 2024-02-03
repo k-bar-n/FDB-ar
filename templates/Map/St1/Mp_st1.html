@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Стеллаж 1
+{% endblock %}
+
+{% block content %}
+  <div class="stellazh-text">Стеллаж 1</div>
+  <div id="main-container">
+    <div id="left-block">
+      <div id="grid-container" style="grid-template-columns: 20px repeat(9, 1fr);"></div>
+      <!-- <div class="resizer" id="resizer"></div> -->
+    </div>
+    <div id="right-block">
+      <div id="block-info">
+        <h2 id="block-title">Выберите контейнер</h2>
+        <p id="block-content">Информация о содержимом контейнера...</p>
+        <div id="info-of-block"></div>
+        <div id="rabota-s-kolichestvom"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Инициализируем генерацию сетки при загрузке страницы
+    window.addEventListener('load', () => {
+      // initResizer()
+      generateGrid(9, 10) // Указываем количество столбцов и строк соответственно
+    })
+  </script>
+  <script src="{{ url_for('static', filename = 'js/script2.js') }}" defer></script>
+  <script src="{{ url_for('static', filename = 'js/script3-database.js') }}" defer></script>
+  <link href="{{ url_for('static', filename = 'scc/style_stellazh.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}

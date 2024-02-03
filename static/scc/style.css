@@ -1,0 +1,11 @@
+html {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    background-color: #f4f4f4;  
+    margin: 0;
+    text-align: center;
+    /* image-orientation: center; */
+}
