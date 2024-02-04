@@ -1,5 +1,5 @@
 # Импорт необходимых модулей
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 
 import csv
 import os
@@ -175,18 +175,21 @@ def read_csv(file_name, row_number=None):
 
 
 # Функция для запуска чтения CSV файла
-def zapusk_read_csv():
+def zapusk_read_csv(row_number_to_extract):
     # Указание имени файла CSV, который будет прочитан
     csv_file_name = 'Krepozh — копия (2).csv'
 
-    # Задание номера строки, которую вы хотите извлечь (замените на нужный номер)
-    row_number_to_extract = 0
+    # Задание номера строки, которую вы хотите извлечь (замените на нужный номер) = row_number_to_extract
 
     # Вызов функции read_csv для чтения файла и сохранения данных в переменной data_csv_base
     data_csv_row = read_csv(csv_file_name, row_number=row_number_to_extract)
 
     # Вывод данных CSV в консоль (может быть изменено или использовано по вашему усмотрению)
     print(data_csv_row)
+
+    # Вызов функции read_csv для чтения файла и возврат данных
+    return read_csv(csv_file_name, row_number=row_number_to_extract)
+
 
 '''
 # Функция для периодического вызова zapusk_read_csv
@@ -207,6 +210,41 @@ def on_startup():
 '''
 
 
+@app.route('/check', methods=['POST'])
+def check():
+    # Получение данных от клиента
+    data = request.get_json()
+    win_loc_href = data.get('win_loc_href', '')
+    quantity_input = data.get('quantity_input', '')
+
+    print(data)
+    data_csv_row = zapusk_read_csv(int(quantity_input))  # Преобразование в int и получение данных
+
+    # Проверка на заполнение поля формы
+    if quantity_input == '':
+        return jsonify({'error': 'Field is empty'})
+
+    # Отправить данные на сервер
+    try:
+        # ... ваша логика обработки данных ...
+        return jsonify({'success': True, 'data_csv_row': data_csv_row})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+    # Проверка ответов (пример)
+    # correct = check_logic(win_loc_href, quantity_input)
+
+    # return jsonify({'correct': correct})
+
+
+'''
+def check_logic(answer1, answer2, answer3):
+    # Ваша логика проверки ответов здесь
+    # Возвращайте True, если все верно, и False в противном случае
+    return True if answer1 == '43200' and answer2 == '64' and answer3 == '1080' else False
+'''
+
+
 # Проверка, является ли файл исполняемым
 if __name__ == "__main__":
     '''
@@ -214,7 +252,7 @@ if __name__ == "__main__":
     on_startup()
     '''
 
-    zapusk_read_csv()
+    # zapusk_read_csv()
 
     # Запуск Flask приложения
     app.run(debug=True, host="0.0.0.0", port=8080)

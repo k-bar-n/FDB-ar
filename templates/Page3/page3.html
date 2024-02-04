@@ -6,4 +6,49 @@
 
 {% block content %}
   <h1>page3</h1>
+
+  <script>
+    function submitAnswers() {
+      var win_loc_href = window.location.href
+      var quantity_input = document.getElementById('quantity_input').value
+    
+      // Проверка на заполнение поля формы
+      if (quantity_input === '') {
+        alert('Заполните поле формы')
+        return
+      }
+    
+      // Отправить данные на сервер
+      // Использование Fetch API
+      fetch('/check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ win_loc_href, quantity_input })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Обновить содержимое блока <h3> с данными из сервера
+          document.getElementById('csv_data_row').innerText = data.data_csv_row
+    
+          // Сбросить значения полей формы
+          document.getElementById('quantity_input').value = ''
+        })
+        .catch((error) => {
+          console.error('Ошибка:', error)
+        })
+    }
+  </script>
+
+  <div class="wrapper">
+    <input type="number" id="quantity_input" />
+    <div onclick="submitAnswers()">
+      <a id="btn-confirm">Отправить</a>
+    </div>
+  </div>
+
+  <h3 id="csv_data_row"></h3>
+
+  <link href="{{ url_for('static', filename = 'scc/style_stellazh.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
