@@ -47,9 +47,27 @@ function generateGrid(columns, rows) {
         for (let j = 1; j <= rows; j++) {
             const gridItem = document.createElement('button');
             gridItem.className = 'grid-item';
+
+            let blockNumber = 0;
+
+            if (window.location.href.includes('stellazh1') || window.location.href.includes('stellazh3')) {
+                blockNumber = (j - 1) * (rows - 1) + i;
+            }
+            else {
+                blockNumber = (j - 1) * (columns) + i;
+            }
+
             // const blockId = String.fromCharCode(410 + i) + j;
+
+            // если вы хотите посмотреть в блоке его blockNumber а не blockId, раскомментируйте вторую из последующих строк
+            // если наоброт, то наоборот
+
             const blockId = String.fromCharCode(1039 + i) + j;
+            // const blockId = blockNumber;
+
             gridItem.id = `block${blockId}`;
+
+            gridItem.dataset.number = blockNumber;
 
             if (window.location.href.includes('stellazh1')) {
                 gridItem.style.height = "30px";
@@ -75,7 +93,7 @@ function displayBlockInfo(blockId) {
 
     // Выводим информацию в блок info-of-block
     infoBlock.innerHTML = generateBlockInfoHTML(data);
-    
+
     let blockInfo; // объявление переменной до условия if-else
 
     if (window.location.href.includes('stellazh1')) {
@@ -90,10 +108,10 @@ function displayBlockInfo(blockId) {
             content: `Информация о содержимом ячейки ${blockId}:`,
         };
     }
-    
+
     // Теперь переменная blockInfo доступна за пределами блока if-else
     // console.log(blockInfo);
-    
+
 
     blockTitle.innerText = blockInfo.title;
     blockContent.innerText = blockInfo.content;

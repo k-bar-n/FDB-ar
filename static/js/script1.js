@@ -19,29 +19,37 @@ function redirectToAnotherPage6() {
 function redirectToAnotherPage7() {
     window.location.href = '/map/stellazh3'
 }
+
 // Стелаж 2
-function redirectToAnotherPage8() {
+function redirectToAnotherPage61() {
     window.location.href = '/map/stellazh2/shelf1'
 }
-function redirectToAnotherPage9() {
+function redirectToAnotherPage62() {
     window.location.href = '/map/stellazh2/shelf2'
 }
-function redirectToAnotherPage10() {
+function redirectToAnotherPage63() {
     window.location.href = '/map/stellazh2/shelf3'
 }
-function redirectToAnotherPage11() {
+function redirectToAnotherPage64() {
     window.location.href = '/map/stellazh2/shelf4'
 }
-function redirectToAnotherPage12() {
+function redirectToAnotherPage65() {
     window.location.href = '/map/stellazh2/shelf5'
 }
+function redirectToAnotherPage66() {
+    window.location.href = '/map/stellazh2/shelf6'
+}
+function redirectToAnotherPage67() {
+    window.location.href = '/map/stellazh2/shelf7'
+}
+
 // Стелаж 3
-function redirectToAnotherPage13() {
+function redirectToAnotherPage91() {
     window.location.href = '/map/stellazh3/shelf1'
 }
-function redirectToAnotherPage14() {
+function redirectToAnotherPage92() {
     window.location.href = '/map/stellazh3/shelf2'
 }
-function redirectToAnotherPage15() {
+function redirectToAnotherPage93() {
     window.location.href = '/map/stellazh3/shelf3'
 }

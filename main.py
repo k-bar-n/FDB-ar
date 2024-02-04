@@ -84,6 +84,16 @@ def index_map_stellazh2_shelf5():
     return render_template("Map/St2/Mp_st2_5.html")
 
 
+@app.route("/map/stellazh2/shelf6")
+def index_map_stellazh2_shelf6():
+    return render_template("Map/St2/Mp_st2_6.html")
+
+
+@app.route("/map/stellazh2/shelf7")
+def index_map_stellazh2_shelf7():
+    return render_template("Map/St2/Mp_st2_7.html")
+
+
 # Стеллаж 3
 @app.route("/map/stellazh3")
 def index_map_stellazh3():
