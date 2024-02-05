@@ -193,8 +193,15 @@ def zapusk_read_csv(row_number_to_extract):
     # Вывод данных CSV в консоль (может быть изменено или использовано по вашему усмотрению)
     print(data_csv_row)
 
-    # Вызов функции read_csv для чтения файла и возврат данных
-    return data_csv_row
+    material = data_csv_row[5]
+    tipe = data_csv_row[6]
+    standard = data_csv_row[7]
+    diameter = data_csv_row[8]
+    length = data_csv_row[9]
+    quantity = data_csv_row[10]
+
+    # возврат данных
+    return data_csv_row, material, tipe, standard, diameter, length, quantity
 
 
 '''
@@ -223,17 +230,25 @@ def check():
     # win_loc_href = data.get('win_loc_href', '')
     quantity_input = data.get('quantity_input', '')
 
-    print(data)
-    data_csv_row = zapusk_read_csv(int(quantity_input))  # Преобразование в int и получение данных
-
     # Проверка на заполнение поля формы
     if quantity_input == '':
         return jsonify({'error': 'Field is empty'})
 
-    # Отправить данные на сервер
     try:
-        # ... ваша логика обработки данных ...
-        return jsonify({'success': True, 'data_csv_row': data_csv_row})
+        # Вызов функции zapusk_read_csv для получения данных
+        data_csv_row, material, tipe, standard, diameter, length, quantity = zapusk_read_csv(int(quantity_input))
+
+        # Возвращение данных на сервер
+        return jsonify({
+            'success': True,
+            'data_csv_row': data_csv_row,
+            'material': material,
+            'tipe': tipe,
+            'standard': standard,
+            'diameter': diameter,
+            'length': length,
+            'quantity': quantity
+        })
     except Exception as e:
         return jsonify({'error': str(e)})
 

@@ -2,11 +2,11 @@
 function generateBlockInfoHTML(data) {
     return `
         <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.type}</p>
+        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
         <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Диаметр:</a> &nbsp; ${data.diameter}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Длина:</a> &nbsp; ${data.length}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Количество:</a> &nbsp; ${data.quantity}</p>
+        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
+        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
+        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
     `;
 }
 
@@ -16,13 +16,13 @@ function getDataFromCSV(blockId) {
     // и возвращать реальные данные для блока с указанным ID. В данном случае, возвращаются фиктивные данные.
     return {
         // material: "Конкретный материал",
-        // type: "Конкретный тип",
+        // tipe: "Конкретный тип",
         // standard: "Конкретный стандарт",
         // diameter: "Конкретный диаметр",
         // length: "Конкретная длина",
         // quantity: "Конкретное количество",
         material: `Конкретный материал ${blockId}`,
-        type: `Конкретный тип ${blockId}`,
+        tipe: `Конкретный тип ${blockId}`,
         standard: `Конкретный стандарт ${blockId}`,
         diameter: `Конкретный диаметр ${blockId}`,
         length: `Конкретная длина ${blockId}`,

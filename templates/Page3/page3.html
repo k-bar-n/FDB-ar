@@ -9,7 +9,6 @@
 
   <script>
     function submitAnswers() {
-      // var win_loc_href = window.location.href
       var quantity_input = document.getElementById('quantity-input').value
     
       // Проверка на заполнение поля формы
@@ -19,19 +18,20 @@
       }
     
       // Отправить данные на сервер
-      // Использование Fetch API
       fetch('/check', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        // body: JSON.stringify({ win_loc_href, quantity_input })
         body: JSON.stringify({ quantity_input })
       })
         .then((response) => response.json())
         .then((data) => {
           // Обновить содержимое блока <h3> с данными из сервера
           document.getElementById('csv_data_row').innerText = data.data_csv_row
+    
+          // Вывести информацию в блок info-of-block
+          document.getElementById('info-of-block').innerHTML = generateBlockInfoHTML(data)
     
           // Сбросить значения полей формы
           document.getElementById('quantity-input').value = ''
@@ -40,13 +40,26 @@
           console.error('Ошибка:', error)
         })
     }
+    
+    function generateBlockInfoHTML(data) {
+      return `
+                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
+                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
+                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
+                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
+                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
+                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
+            `
+    }
   </script>
 
   <div class="wrapper">
     <input type="number" id="quantity-input" />
+    <br>
     <div onclick="submitAnswers()">
       <button id="btn-confirm">Отправить</button>
     </div>
+    <div id="info-of-block" style="text-align: center;"></div>
   </div>
 
   <h3 id="csv_data_row"></h3>
