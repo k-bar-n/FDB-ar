@@ -220,7 +220,7 @@ def on_startup():
 def check():
     # Получение данных от клиента
     data = request.get_json()
-    win_loc_href = data.get('win_loc_href', '')
+    # win_loc_href = data.get('win_loc_href', '')
     quantity_input = data.get('quantity_input', '')
 
     print(data)
@@ -239,6 +239,7 @@ def check():
 
     # Проверка ответов (пример)
     # correct = check_logic(win_loc_href, quantity_input)
+    # correct = check_logic(quantity_input)
 
     # return jsonify({'correct': correct})
 

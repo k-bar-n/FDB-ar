@@ -209,7 +209,6 @@
     align-items: center;
 }
 
-#btn-confirm,
 #quantity-input {
     background-color: #C4CBFC;
     border-color: #ffb300;
@@ -219,6 +218,12 @@
 }
 
 #btn-confirm {
+    background-color: #C4CBFC;
+    border-color: #ffb300;
+    border-radius: 1vh;
+    border-width: 0.3vmin;
+    transition: 0.5s;
+
     width: 150px;
     height: 30px;
     cursor: pointer;
