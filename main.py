@@ -115,130 +115,78 @@ def index_map_stellazh3_shelf3():
     return render_template("Map/St3/Mp_st3_3.html")
 
 
-'''
 # Функция для чтения CSV файла
-def read_csv(file_name):
-    # Определение текущей директории скрипта
+def read_csv(file_name, row_number_to_extract):
     script_dir = os.path.dirname(__file__)
-    # Формирование пути к файлу CSV в папке static/data
     file_path = os.path.join(script_dir, 'static/data', file_name)
-    # Инициализация пустого списка для хранения данных CSV
-    csv_data = []
+    csv_data = None
 
-    # Открытие файла CSV и чтение его содержимого
-    with open(file_path, 'r', newline='', encoding='utf-8-sig') as file:
-        # Использование csv.reader для разделения строк на элементы с разделителем ';'
-        csv_reader = csv.reader(file, delimiter=';')
-        # Чтение заголовка и добавление его в список csv_data
-        header = next(csv_reader)
-        csv_data.append(header)
+    try:
+        with open(file_path, 'r', newline='', encoding='utf-8-sig') as file:
+            csv_reader = csv.reader(file, delimiter=';')
+            # Пропускаем строки до нужной
+            for _ in range(row_number_to_extract):
+                next(csv_reader)
+            # Читаем нужную строку
+            csv_data = next(csv_reader)
+    except FileNotFoundError:
+        print(f"Файл '{file_name}' не найден.")
+    except Exception as e:
+        print(f"Произошла ошибка при чтении файла CSV: {str(e)}")
 
-        # Итерация по строкам CSV и добавление их в список csv_data
-        for row in csv_reader:
-            csv_data.append(row)
-
-    # Возвращение полученных данных из CSV файла
-    return csv_data
-
-
-# Функция для запуска чтения CSV файла
-def zapusk_read_csv():
-    # Указание имени файла CSV, который будет прочитан
-    csv_file_name = 'Krepozh — копия (2).csv'
-    # Вызов функции read_csv для чтения файла и сохранения данных в переменной data_csv_base
-    data_csv_base = read_csv(csv_file_name)
-    # Вывод данных CSV в консоль (может быть изменено или использовано по вашему усмотрению)
-    print(data_csv_base)
-'''
-
-
-# Функция для чтения CSV файла
-def read_csv(file_name, row_number):
-    # Определение текущей директории скрипта
-    script_dir = os.path.dirname(__file__)
-    # Формирование пути к файлу CSV в папке static/data
-    file_path = os.path.join(script_dir, 'static/data', file_name)
-    # Инициализация пустого списка для хранения данных CSV
-    csv_data = []
-
-    # Открытие файла CSV и чтение его содержимого
-    with open(file_path, 'r', newline='', encoding='utf-8-sig') as file:
-        # Использование csv.reader для разделения строк на элементы с разделителем ';'
-        csv_reader = csv.reader(file, delimiter=';')
-
-        # Если задан номер строки (row_number), читаем только эту строку
-        if row_number is not None:
-            for i, row in enumerate(csv_reader):
-                if i == row_number:
-                    csv_data.extend(row)
-                    break
-        else:
-            # Если row_number не указан, возвращаем пустой список
-            return []
-
-    # Возвращение полученных данных из CSV файла
     return csv_data
 
 
 # Функция для запуска чтения CSV файла
 def zapusk_read_csv(row_number_to_extract):
-    # Указание имени файла CSV, который будет прочитан
     csv_file_name = 'Крепёж.csv'
-
-    # Задание номера строки, которую вы хотите извлечь (замените на нужный номер) = row_number_to_extract
-
-    # Вызов функции read_csv для чтения файла и сохранения данных в переменной data_csv_base
-    data_csv_row = read_csv(csv_file_name, row_number_to_extract)
-
-    # Вывод данных CSV в консоль (может быть изменено или использовано по вашему усмотрению)
-    print(data_csv_row)
-
-    material = data_csv_row[5]
-    tipe = data_csv_row[6]
-    standard = data_csv_row[7]
-    diameter = data_csv_row[8]
-    length = data_csv_row[9]
-    quantity = data_csv_row[10]
-
-    # возврат данных
-    return data_csv_row, material, tipe, standard, diameter, length, quantity
-
-
-'''
-# Функция для периодического вызова zapusk_read_csv
-def periodic_check():
-    # Вызов функции zapusk_read_csv при периодической проверке
-    zapusk_read_csv()
-
-
-# Функция для вызова при запуске приложения
-def on_startup():
-    # Вызов функции zapusk_read_csv при старте приложения
-    zapusk_read_csv()
-
-    # Использование BackgroundScheduler для периодического вызова periodic_check каждые 5 секунд
-    scheduler.add_job(periodic_check, 'interval', seconds=5)
-    # Запуск фонового планировщика
-    scheduler.start()
-'''
-
-
-@app.route('/check', methods=['POST'])
-def check():
-    # Получение данных от клиента
-    data = request.get_json()
-    # win_loc_href = data.get('win_loc_href', '')
-    quantity_input = data.get('quantity_input', '')
-
-    # Проверка на заполнение поля формы
-    if quantity_input == '':
-        return jsonify({'error': 'Field is empty'})
+    data_csv_base = None
 
     try:
-        # Вызов функции zapusk_read_csv для получения данных
-        data_csv_row, material, tipe, standard, diameter, length, quantity = zapusk_read_csv(int(quantity_input))
+        data_csv_base = read_csv(csv_file_name, row_number_to_extract)
+    except Exception as e:
+        print(f"Произошла ошибка при чтении файла CSV: {str(e)}")
 
-        # Возвращение данных на сервер
+    return data_csv_base
+
+
+# Обработчик маршрута для проверки
+@app.route('/check', methods=['POST'])
+def check():
+    data = request.get_json()
+    block_number = data.get('line_number')  # Обновляем ключ с 'dataNumber' на 'line_number'
+    page_url = data.get('page_url')  # Получаем ссылку на текущую страницу
+
+    # print(data)  # Выведем данные для отладки
+
+    if page_url is not None:
+        def remove_protocol_and_domain(url):
+            # Разбиваем URL по "//", чтобы избавиться от протокола
+            parts = url.split("//")
+            # Извлекаем вторую часть, содержащую хост и путь
+            remaining_url = parts[-1]
+            # Разбиваем оставшуюся часть по '/', чтобы извлечь только путь
+            path_parts = remaining_url.split('/', 1)
+            if len(path_parts) > 1:
+                return path_parts[1]  # Возвращаем только путь после домена
+            else:
+                return ''  # Если путь отсутствует, возвращаем пустую строку
+
+        page_url = remove_protocol_and_domain(page_url)
+        print(page_url)
+
+    if block_number is None:
+        return jsonify({'error': 'Block number not provided'})
+
+    material, tipe, standard, diameter, length, quantity = "", "", "", "", "", ""
+
+    try:
+        data_csv_row = zapusk_read_csv(int(block_number))
+
+        if data_csv_row:
+            material, tipe, standard, diameter, length, quantity = data_csv_row[5:11]
+            # print(material, "-", tipe, "-", standard, "-", diameter, "-", length, "-", quantity)
+
         return jsonify({
             'success': True,
             'data_csv_row': data_csv_row,
@@ -247,34 +195,13 @@ def check():
             'standard': standard,
             'diameter': diameter,
             'length': length,
-            'quantity': quantity
+            'quantity': quantity,
+            'page_url': page_url  # Отправляем обратно ссылку на текущую страницу
         })
     except Exception as e:
+        print(f"Произошла ошибка: {str(e)}")
         return jsonify({'error': str(e)})
 
-    # Проверка ответов (пример)
-    # correct = check_logic(win_loc_href, quantity_input)
-    # correct = check_logic(quantity_input)
 
-    # return jsonify({'correct': correct})
-
-
-'''
-def check_logic(answer1, answer2, answer3):
-    # Ваша логика проверки ответов здесь
-    # Возвращайте True, если все верно, и False в противном случае
-    return True if answer1 == '43200' and answer2 == '64' and answer3 == '1080' else False
-'''
-
-
-# Проверка, является ли файл исполняемым
 if __name__ == "__main__":
-    '''
-    # Вызов функции on_startup при запуске приложения
-    on_startup()
-    '''
-
-    # zapusk_read_csv()
-
-    # Запуск Flask приложения
     app.run(debug=True, host="0.0.0.0", port=8080)

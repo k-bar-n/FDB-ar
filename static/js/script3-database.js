@@ -1,3 +1,6 @@
+// Глобальная переменная для хранения текущего ID блока
+let currentBlockId = null;
+
 // Генерирует HTML-разметку для информации о блоке на основе переданных данных.
 function generateBlockInfoHTML(data) {
     return `
@@ -10,53 +13,45 @@ function generateBlockInfoHTML(data) {
     `;
 }
 
-// Функция для получения данных из базы данных CSV по блоку
-function getDataFromCSV(blockId) {
-    // В реальном приложении эта функция должна была бы делать запрос к базе данных
-    // и возвращать реальные данные для блока с указанным ID. В данном случае, возвращаются фиктивные данные.
-    return {
-        // material: "Конкретный материал",
-        // tipe: "Конкретный тип",
-        // standard: "Конкретный стандарт",
-        // diameter: "Конкретный диаметр",
-        // length: "Конкретная длина",
-        // quantity: "Конкретное количество",
-        material: `Конкретный материал ${blockId}`,
-        tipe: `Конкретный тип ${blockId}`,
-        standard: `Конкретный стандарт ${blockId}`,
-        diameter: `Конкретный диаметр ${blockId}`,
-        length: `Конкретная длина ${blockId}`,
-        // quantity: `Конкретное количество ${blockId}`,
-        quantity: 52,
-    };
+// Функция для обновления информации о блоке на странице с анимацией
+function displayBlockInfo(data) {
+    // Проверяем, есть ли данные
+    if (!data) {
+        console.error('Данные для блока не найдены.');
+        return;
+    }
+
+    // Обновляем отображение информации о блоке
+    const blockInfoHTML = generateBlockInfoHTML(data);
+    const infoOfBlock = document.getElementById('info-of-block');
+    if (infoOfBlock) {
+        // Добавляем класс для плавного появления
+        infoOfBlock.classList.add('info-fade-in');
+        infoOfBlock.innerHTML = blockInfoHTML;
+
+        // Убираем класс после завершения анимации
+        setTimeout(() => {
+            infoOfBlock.classList.remove('info-fade-in');
+        }, 500); // Время анимации в миллисекундах
+    } else {
+        console.error('Элемент с id "info-of-block" не найден.');
+    }
+
+    // Вызываем функции для создания кнопок и полей ввода
+    createButtons();
+    createDynamicElements();
 }
-
-// Функция для обновления информации при выборе блока
-function updateBlockInfo(blockId) {
-    // Получаем данные для блока и обновляем информацию в интерфейсе
-    const data = getDataFromCSV(blockId);
-    displayBlockInfo(blockId);
-}
-
-
-
-// Временная реализация функции обновления данных в CSV
-//              function updateDataInCSV(blockId, newData) {
-
-// Эта функция представляет собой заглушку и выводит в консоль обновленные данные,
-// в реальном приложении она должна обновлять данные в базе данных.
-
-//          console.log(`Update data in CSV for block ${blockId}:`, newData);
-// Здесь обычно должен быть код для фактического обновления данных в CSV.
-//              }
-
-
 
 // Функция для создания кнопок динамически
 function createButtons() {
     // Создаем и добавляем кнопки "Взять" и "Положить" в контейнер,
     // также удаляем существующие кнопки перед созданием новых.
     const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+    if (!buttonsContainer) {
+        console.error('Элемент с id "rabota-s-kolichestvom" не найден.');
+        return;
+    }
+
     const existingButtons = document.querySelectorAll('.dynamic-button');
     existingButtons.forEach(button => {
         buttonsContainer.removeChild(button);
@@ -82,30 +77,18 @@ function createDynamicElements() {
     // Создаем и добавляем кнопки "Взять" и "Положить", поле ввода и кнопку "Готово",
     // удаляем существующие кнопки и элементы перед созданием новых.
     const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+    if (!buttonsContainer) {
+        console.error('Элемент с id "rabota-s-kolichestvom" не найден.');
+        return;
+    }
+
     const quantityInputContainer = document.getElementById('quantity-input-container');
-
-    const existingButtons = document.querySelectorAll('.dynamic-button');
-    existingButtons.forEach(button => {
-        buttonsContainer.removeChild(button);
-    });
-
     if (quantityInputContainer) {
         quantityInputContainer.parentNode.removeChild(quantityInputContainer);
     }
 
-    // Создаем кнопку "Взять"
-    const btnTake = document.createElement('button');
-    btnTake.className = 'dynamic-button';
-    btnTake.innerText = 'Взять';
-    btnTake.onclick = () => showQuantityInput('Взять');
-    buttonsContainer.appendChild(btnTake);
-
-    // Создаем кнопку "Положить"
-    const btnPut = document.createElement('button');
-    btnPut.className = 'dynamic-button';
-    btnPut.innerText = 'Положить';
-    btnPut.onclick = () => showQuantityInput('Положить');
-    buttonsContainer.appendChild(btnPut);
+    // Создаем кнопки "Взять" и "Положить"
+    createButtons();
 
     // Создаем контейнер для поля ввода и кнопки "Готово"
     const newQuantityInputContainer = document.createElement('div');
@@ -134,7 +117,16 @@ function createDynamicElements() {
 function showQuantityInput(action) {
     // Устанавливает текст и видимость поля ввода в зависимости от выбранного действия.
     const quantityInputContainer = document.getElementById('quantity-input-container');
+    if (!quantityInputContainer) {
+        console.error('Элемент с id "quantity-input-container" не найден.');
+        return;
+    }
+
     const btnConfirm = document.getElementById('btn-confirm');
+    if (!btnConfirm) {
+        console.error('Элемент с id "btn-confirm" не найден.');
+        return;
+    }
 
     btnConfirm.dataset.action = action;
     btnConfirm.innerText = `Готово (${action})`;
@@ -146,57 +138,89 @@ function showQuantityInput(action) {
 // Функция для выполнения действия в зависимости от выбора "Взять" или "Положить"
 function performAction() {
     // Выполняет действие (взять/положить) в зависимости от выбора пользователя.
+    // Проверка существования элемента
     const btnConfirm = document.getElementById('btn-confirm');
-    const quantityInput = document.getElementById('quantity-input');
-    const action = btnConfirm.dataset.action || '';
-    const blockId = getCurrentBlockId();
-    let data = getDataFromCSV(blockId);
-
-    // Проверяем, что введено натуральное число
-    const quantity = parseInt(quantityInput.value);
-    if (isNaN(quantity) || quantity <= 0) {
-        alert('Пожалуйста, введите натуральное число.');
+    if (!btnConfirm) {
+        console.error('Элемент с id "btn-confirm" не найден.');
         return;
     }
 
-    // Выполняем действие в зависимости от выбранного "Взять" или "Положить"
-    if (action === 'Взять') {
-        if (quantity > data.quantity) {
-            alert('Нельзя взять больше, чем есть в наличии.');
-            return;
-        }
-        data.quantity -= quantity;
-    } else if (action === 'Положить') {
-        data.quantity += quantity;
+    const quantityInput = document.getElementById('quantity-input');
+    if (!quantityInput) {
+        console.error('Элемент с id "quantity-input" не найден.');
+        return;
     }
 
-    // Обновляем информацию в базе данных !!!
-    // updateDataInCSV(blockId, data);
+    const action = btnConfirm.dataset.action || '';
+    const blockId = currentBlockId; // Используем глобальную переменную currentBlockId
 
-    // Обновляем отображение информации
-    displayBlockInfo(blockId);
+    var block = document.getElementById(blockId);
 
-    // Скрываем поле ввода
-    const quantityInputContainer = document.getElementById('quantity-input-container');
-    fadeOut(quantityInputContainer);
+    if (!block) {
+        console.error('Элемент с id ' + blockId + ' не найден.');
+        return;
+    }
 
-    // Очищаем поле ввода
-    quantityInput.value = '';
+    var dataNumber = block.getAttribute("data-number");
+
+    if (!dataNumber) {
+        console.error('Атрибут data-number не найден на элементе с id ' + blockId);
+        return;
+    }
+
+    // Выводим значение атрибута data-number
+    console.log("Значение data-number блока:", dataNumber);
+
+    // Получаем данные о блоке с сервера
+    fetch('/check', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ dataNumber: dataNumber }) // убедитесь, что ключ совпадает с ожидаемым на сервере
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // Проверяем, есть ли данные
+            if (!data) {
+                console.error('Данные для блока не найдены.');
+                return;
+            }
+
+            // Проверяем, что введено натуральное число
+            const quantity = parseInt(quantityInput.value);
+            if (isNaN(quantity) || quantity <= 0) {
+                alert('Пожалуйста, введите натуральное число.');
+                return;
+            }
+
+            // Выполняем действие в зависимости от выбранного "Взять" или "Положить"
+            if (action === 'Взять') {
+                if (quantity > data.quantity) {
+                    alert('Нельзя взять больше, чем есть в наличии.');
+                    return;
+                }
+                data.quantity -= quantity;
+            } else if (action === 'Положить') {
+                data.quantity += quantity;
+            }
+
+            // Обновляем отображение информации
+            displayBlockInfo(data);
+
+            // Скрываем поле ввода
+            const quantityInputContainer = document.getElementById('quantity-input-container');
+            if (quantityInputContainer) {
+                fadeOut(quantityInputContainer);
+            }
+
+            // Очищаем поле ввода
+            quantityInput.value = '';
+        })
+        .catch((error) => {
+            console.error('Ошибка:', error);
+        });
 }
-
-// Обработчик события клика по блоку
-document.addEventListener('click', (event) => {
-    // Обрабатываем событие клика по блоку (grid-item)
-    if (event.target.classList.contains('grid-item')) {
-        const blockId = event.target.id.substring(5); // Извлекаем ID блока из ID элемента
-        currentBlockId = blockId;
-        updateBlockInfo(blockId);
-
-        // Вызываем функции для создания кнопок и полей ввода
-        createButtons();
-        createDynamicElements();
-    }
-});
 
 // Функция для плавного появления элемента
 function fadeIn(element) {
@@ -223,4 +247,84 @@ function fadeOut(element) {
             }
         })();
     }, 300); // Задержка перед началом исчезновения (300 миллисекунд)
+}
+
+// Функция для обработки событий клика по блоку
+document.addEventListener('click', (event) => {
+    // Обрабатываем событие клика по блоку (grid-item)
+    if (event.target.classList.contains('grid-item')) {
+        const blockNumber = event.target.dataset.number; // Получаем значение data-number блока
+        updateBlockInfoWithFetch(blockNumber);
+
+        // Получаем ссылку на текущую страницу
+        const currentPageUrl = window.location.href;
+
+        // Отправляем данные о блоке и ссылку на текущую страницу на сервер
+        submitLineNumber(blockNumber, currentPageUrl);
+
+        // Передаем blockId в функцию
+        const blockId = event.target.dataset.number;
+        displayBlockInfo(blockId);
+    }
+});
+
+// Функция для обновления информации при выборе блока
+function updateBlockInfoWithFetch(blockNumber) {
+    // Отправляем запрос на сервер с номером блока
+    submitLineNumber(blockNumber);
+
+    // Вызываем функцию для выделения блока
+    highlightBlock(blockNumber);
+}
+
+// Функция для отправки номера строки и текущей страницы на сервер
+function submitLineNumber(lineNumber, currentPageUrl) {
+    // Отправляем данные на сервер
+    fetch('/check', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ line_number: lineNumber, page_url: currentPageUrl })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        // Обновляем содержимое страницы с полученными данными
+        displayBlockInfo(data);
+    })
+    .catch((error) => {
+        console.error('Ошибка:', error);
+    });
+}
+
+// Функция для обновления информации о блоке на странице
+function updateBlockInfo(data) {
+    // Проверяем, есть ли данные
+    if (!data) {
+        console.error('Данные для блока не найдены.');
+        return;
+    }
+
+    // Устанавливаем заголовок и содержимое блока в зависимости от типа
+    const blockId = getCurrentBlockId();
+    const blockType = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
+
+    const blockInfo = {
+        title: `${blockType} ${blockId}`,
+        content: `Информация о содержимом ${blockType.toLowerCase()} ${blockId}:`,
+    };
+
+    // Обновляем отображение информации о блоке
+    const blockTitle = document.getElementById('block-title');
+    const blockContent = document.getElementById('block-content');
+    if (blockTitle && blockContent) {
+        blockTitle.innerText = blockInfo.title;
+        blockContent.innerText = blockInfo.content;
+    } else {
+        console.error('Элемент с id "block-title" или "block-content" не найден.');
+    }
+
+    // Вызываем функции для создания кнопок и полей ввода
+    createButtons();
+    createDynamicElements();
 }

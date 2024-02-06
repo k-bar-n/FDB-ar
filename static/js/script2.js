@@ -77,61 +77,66 @@ function generateGrid(columns, rows) {
             }
 
             gridItem.textContent = blockId;
-            gridItem.onclick = () => displayBlockInfo(blockId);
+            gridItem.onclick = (event) => {
+                const blockNumber = event.target.dataset.number;
+                displayBlockInfo(blockNumber);
+            };
             rowContainer.appendChild(gridItem);
         }
     }
+    // Выводим идентификаторы блоков на консоль
+    const allBlockIds = document.querySelectorAll('.grid-item');
+    console.log('Идентификаторы всех блоков:', allBlockIds);
 }
 
-function displayBlockInfo(blockId) {
+// Функция для обновления информации о блоке на странице
+function updateBlockInfo(data) {
+    // Проверяем, есть ли данные
+    if (!data) {
+        console.error('Данные для блока не найдены.');
+        return;
+    }
+
+    // Устанавливаем заголовок и содержимое блока в зависимости от типа
+    const blockId = getCurrentBlockId();
+    const blockType = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
+
+    const blockInfo = {
+        title: `${blockType} ${blockId}`,
+        content: `Информация о содержимом ${blockType.toLowerCase()} ${blockId}:`,
+    };
+
+    // Обновляем отображение информации о блоке
     const blockTitle = document.getElementById('block-title');
     const blockContent = document.getElementById('block-content');
-    const infoBlock = document.getElementById('info-of-block');
-
-    // Получаем данные из базы данных CSV
-    const data = getDataFromCSV(blockId);
-
-    // Выводим информацию в блок info-of-block
-    infoBlock.innerHTML = generateBlockInfoHTML(data);
-
-    let blockInfo; // объявление переменной до условия if-else
-
-    if (window.location.href.includes('stellazh1')) {
-        blockInfo = {
-            title: `Контейнер ${blockId}`,
-            content: `Информация о содержимом контейнера ${blockId}:`,
-        };
-    }
-    else {
-        blockInfo = {
-            title: `Ячейка ${blockId}`,
-            content: `Информация о содержимом ячейки ${blockId}:`,
-        };
+    if (blockTitle && blockContent) {
+        blockTitle.innerText = blockInfo.title;
+        blockContent.innerText = blockInfo.content;
+    } else {
+        console.error('Элемент с id "block-title" или "block-content" не найден.');
     }
 
-    // Теперь переменная blockInfo доступна за пределами блока if-else
-    // console.log(blockInfo);
-
-
-    blockTitle.innerText = blockInfo.title;
-    blockContent.innerText = blockInfo.content;
-
-    // Вызываем функцию для выделения блока
-    highlightBlock(blockId);
+    // Вызываем функции для создания кнопок и полей ввода
+    createButtons();
+    createDynamicElements();
 }
 
 // Функция для изменения background-color у выбранного блока
-function highlightBlock(blockId) {
+function highlightBlock(blockNumber) {
+    console.log('Вызвана функция highlightBlock с blockNumber:', blockNumber);
+
     // Сначала снимаем выделение со всех блоков
     const allBlocks = document.querySelectorAll('.grid-item');
     allBlocks.forEach(block => {
         block.style.backgroundColor = ''; // Убираем background-color
     });
 
-    // Затем выделяем выбранный блок
-    const selectedBlock = document.getElementById(`block${blockId}`);
+    // Затем находим выбранный блок по атрибуту data-number
+    const selectedBlock = document.querySelector(`.grid-item[data-number="${blockNumber}"]`);
     if (selectedBlock) {
-        selectedBlock.style.backgroundColor = 'orange'; // Например, задаем цвет подсветки
+        selectedBlock.style.backgroundColor = 'orange'; // Задаем цвет подсветки
+    } else {
+        console.error('Выбранный блок не найден.');
     }
 }
 
@@ -140,10 +145,6 @@ let blockId = null;
 
 // Функция для получения текущего ID блока
 function getCurrentBlockId() {
-    // Здесь вам нужно реализовать логику получения текущего ID блока
-    // Возможно, вы сохраняете текущий выбранный блок где-то в переменной или в состоянии
-    // В данном случае я предполагаю, что у вас есть глобальная переменная currentBlockId
-    // Если у вас есть другой способ отслеживания текущего блока, замените этот код соответственно
     return blockId;
 }
 
@@ -155,6 +156,7 @@ document.addEventListener('click', (event) => {
         createDynamicElements();
     }
 });
+
 
 
 // Функция для изменения ширины блоков
