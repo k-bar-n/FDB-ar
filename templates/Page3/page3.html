@@ -5,14 +5,12 @@
 {% endblock %}
 
 {% block content %}
-  <h1>page3</h1>
-
   <script>
     function submitAnswers_page3() {
-      var quantity_input = document.getElementById('quantity-input').value
+      var line_number = document.getElementById('line_number').value
     
       // Проверка на заполнение поля формы
-      if (quantity_input === '') {
+      if (line_number === '') {
         alert('Заполните поле формы')
         return
       }
@@ -23,7 +21,7 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ quantity_input })
+        body: JSON.stringify({ line_number })
       })
         .then((response) => response.json())
         .then((data) => {
@@ -34,35 +32,43 @@
           document.getElementById('info-of-block').innerHTML = generateBlockInfoHTML(data)
     
           // Сбросить значения полей формы
-          document.getElementById('quantity-input').value = ''
+          document.getElementById('line_number').value = ''
         })
         .catch((error) => {
           console.error('Ошибка:', error)
+          alert('Произошла ошибка при обращении к серверу')
         })
     }
     
     function generateBlockInfoHTML(data) {
       return `
-                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
-                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
-                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
-                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
-                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
-                <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
-            `
+                <p class="data-about-the-block"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
+                <p class="data-about-the-block"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
+                <p class="data-about-the-block"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
+                <p class="data-about-the-block"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
+                <p class="data-about-the-block"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
+                <p class="data-about-the-block"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
+                `
     }
   </script>
 
-  <div class="wrapper">
-    <input type="number" id="quantity-input" />
-    <br>
-    <div onclick="submitAnswers_page3()">
-      <button id="btn-confirm">Отправить</button>
-    </div>
-    <div id="info-of-block" style="text-align: center;"></div>
-  </div>
+  <h1>page3</h1>
 
-  <h3 id="csv_data_row"></h3>
+  <div class="wrapper">
+    <div class="input-line_number-container">
+      <input type="number" id="line_number" />
+    </div>
+
+    <br />
+
+    <div onclick="submitAnswers_page3()">
+      <button id="btn-confirm-of-input-line_number-container">Отправить</button>
+    </div>
+
+    <div id="info-of-block" style="text-align: center;"></div>
+
+    <h3 id="csv_data_row"></h3>
+  </div>
 
   <link href="{{ url_for('static', filename = 'scc/style_stellazh.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}

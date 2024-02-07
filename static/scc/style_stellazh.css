@@ -209,15 +209,30 @@
     align-items: center;
 }
 
-#quantity-input {
+#quantity-input,
+#line_number {
     background-color: #C4CBFC;
     border-color: #ffb300;
     border-radius: 1vh;
     border-width: 0.3vmin;
     transition: 0.5s;
+    height: 30px;
+    cursor: text;
+    font-size: 17px;
 }
 
-#btn-confirm {
+#quantity-input {
+    flex-grow: 1;
+    /* Растягиваем поле ввода, чтобы занимало оставшееся пространство */
+}
+
+.input-line_number-container {
+    display: flex;
+    justify-content: center;
+}
+
+#btn-confirm,
+#btn-confirm-of-input-line_number-container {
     background-color: #C4CBFC;
     border-color: #ffb300;
     border-radius: 1vh;
@@ -228,15 +243,10 @@
     height: 30px;
     cursor: pointer;
     font-size: 20px;
-    margin-left: 10px;
 }
 
-#quantity-input {
-    height: 30px;
-    cursor: text;
-    font-size: 17px;
-    flex-grow: 1;
-    /* Растягиваем поле ввода, чтобы занимало оставшееся пространство */
+#btn-confirm {
+    margin-left: 10px;
 }
 
 /* Добавляем анимацию для плавного появления */

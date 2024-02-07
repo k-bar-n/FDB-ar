@@ -4,12 +4,12 @@ let currentBlockId = null;
 // Генерирует HTML-разметку для информации о блоке на основе переданных данных.
 function generateBlockInfoHTML(data) {
     return `
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
-        <p class="neizmenyaemi-text-inform"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
     `;
 }
 
