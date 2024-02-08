@@ -151,6 +151,7 @@ def zapusk_read_csv(row_number_to_extract):
 # Функция для обработки ссылки на страницу
 def process_page_url(page_url, block_number):
     url_to_block_mapping = {  # Сопоставление URL страниц с номерами блоков
+        "map/stellazh1": 0,
         "map/stellazh2/shelf1": 90,
         "map/stellazh2/shelf2": 100,
         "map/stellazh2/shelf3": 110,

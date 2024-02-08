@@ -296,35 +296,3 @@ function submitLineNumber(lineNumber, currentPageUrl) {
         console.error('Ошибка:', error);
     });
 }
-
-// Функция для обновления информации о блоке на странице
-function updateBlockInfo(data) {
-    // Проверяем, есть ли данные
-    if (!data) {
-        console.error('Данные для блока не найдены.');
-        return;
-    }
-
-    // Устанавливаем заголовок и содержимое блока в зависимости от типа
-    const blockId = getCurrentBlockId();
-    const blockType = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
-
-    const blockInfo = {
-        title: `${blockType} ${blockId}`,
-        content: `Информация о содержимом ${blockType.toLowerCase()} ${blockId}:`,
-    };
-
-    // Обновляем отображение информации о блоке
-    const blockTitle = document.getElementById('block-title');
-    const blockContent = document.getElementById('block-content');
-    if (blockTitle && blockContent) {
-        blockTitle.innerText = blockInfo.title;
-        blockContent.innerText = blockInfo.content;
-    } else {
-        console.error('Элемент с id "block-title" или "block-content" не найден.');
-    }
-
-    // Вызываем функции для создания кнопок и полей ввода
-    createButtons();
-    createDynamicElements();
-}
