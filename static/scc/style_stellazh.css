@@ -1,7 +1,9 @@
 #main-container {
     display: flex;
-    /* height: 100vh; */
     overflow: hidden;
+    width: 98vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #left-block,
@@ -10,14 +12,45 @@
     overflow: auto;
     position: relative;
     /* width: 40vw; */
-}
-
-#left-block {
-    width: 65vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #right-block {
-    width: 35vw;
+    border-radius: 20px;
+    background-color: #e5e5e5;
+
+}
+
+
+/* При ширине экрана меньше 600px элементы будут располагаться вертикально */
+@media screen and (max-width: 750px) {
+    #main-container {
+        flex-direction: column;
+    }
+
+    #left-block {
+        width: 97vw;
+    }
+
+    #right-block {
+        width: 97vw;
+    }
+}
+
+/* При ширине экрана больше или равной 600px элементы будут располагаться горизонтально */
+@media screen and (min-width: 750px) {
+    #main-container {
+        flex-direction: row;
+    }
+
+    #left-block {
+        width: 65vw;
+    }
+
+    #right-block {
+        width: 35vw;
+    }
 }
 
 /* .resizable {
@@ -154,10 +187,6 @@
 
 #info-of-block {
     text-align: left;
-}
-
-#right-block {
-    background-color: #f0f0f0;
 }
 
 #block-info {
