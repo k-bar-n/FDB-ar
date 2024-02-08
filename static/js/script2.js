@@ -64,6 +64,8 @@ function generateGrid(columns, rows) {
 
             const blockId = String.fromCharCode(1039 + i) + j;
             // const blockId = blockNumber;
+            // const blockId = (String.fromCharCode(1039 + i) + j) + " " + blockNumber;
+
 
             gridItem.id = `block${blockId}`;
 
