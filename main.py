@@ -177,7 +177,7 @@ def process_page_url(page_url, block_number):
 
 
 # Маршрут для обработки запроса POST
-@app.route('/check', methods=['POST'])
+@app.route('/receiving_data_from_server', methods=['POST'])
 def check():
     try:
         data = request.get_json()  # Получаем данные из POST запроса

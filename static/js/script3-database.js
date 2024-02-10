@@ -274,7 +274,7 @@ document.addEventListener('click', (event) => {
 // Функция для отправки номера строки и текущей страницы на сервер
 function submitLineNumber(blockNumber, currentPageUrl) {
     // Отправляем данные на сервер
-    fetch('/check', {
+    fetch('/receiving_data_from_server', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
