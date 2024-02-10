@@ -137,7 +137,7 @@ def read_csv(file_name, row_number_to_extract):
 
 # Функция для запуска чтения CSV файла
 def zapusk_read_csv(row_number_to_extract):
-    csv_file_name = 'Крепёж.csv'  # Имя CSV файла
+    csv_file_name = 'Krepozh.csv'  # Имя CSV файла
     data_csv_base = None  # Инициализируем переменную для хранения данных из CSV файла
 
     try:
@@ -151,27 +151,27 @@ def zapusk_read_csv(row_number_to_extract):
 # Функция для обработки ссылки на страницу
 def process_page_url(page_url, block_number):
     if page_url == "map/stellazh1":
-        block_number = (int(block_number) + 0)
+        block_number = (int(block_number) + 1)
     elif page_url == "map/stellazh2/shelf1":
-        block_number = (int(block_number) + 90)
+        block_number = (int(block_number) + 91)
     elif page_url == "map/stellazh2/shelf2":
-        block_number = (int(block_number) + 100)
+        block_number = (int(block_number) + 101)
     elif page_url == "map/stellazh2/shelf3":
-        block_number = (int(block_number) + 110)
+        block_number = (int(block_number) + 111)
     elif page_url == "map/stellazh2/shelf4":
-        block_number = (int(block_number) + 120)
+        block_number = (int(block_number) + 121)
     elif page_url == "map/stellazh2/shelf5":
-        block_number = (int(block_number) + 130)
+        block_number = (int(block_number) + 131)
     elif page_url == "map/stellazh2/shelf6":
-        block_number = (int(block_number) + 140)
+        block_number = (int(block_number) + 141)
     elif page_url == "map/stellazh2/shelf7":
-        block_number = (int(block_number) + 150)
+        block_number = (int(block_number) + 151)
     elif page_url == "map/stellazh3/shelf1":
-        block_number = (int(block_number) + 160)
+        block_number = (int(block_number) + 161)
     elif page_url == "map/stellazh3/shelf2":
-        block_number = (int(block_number) + 180)
+        block_number = (int(block_number) + 181)
     elif page_url == "map/stellazh3/shelf3":
-        block_number = (int(block_number) + 200)
+        block_number = (int(block_number) + 201)
     print("Inside condition block_number:", block_number)
     return block_number
 
