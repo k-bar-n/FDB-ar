@@ -254,7 +254,12 @@ document.addEventListener('click', (event) => {
     // Обрабатываем событие клика по блоку (grid-item)
     if (event.target.classList.contains('grid-item')) {
         const blockNumber = event.target.dataset.number; // Получаем значение data-number блока
-        updateBlockInfoWithFetch(blockNumber);
+
+        // Отправляем запрос на сервер с номером блока
+        submitLineNumber(blockNumber);
+
+        // Вызываем функцию для выделения блока
+        highlightBlock(blockNumber);
 
         // Получаем ссылку на текущую страницу
         const currentPageUrl = window.location.href;
@@ -268,15 +273,6 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// Функция для обновления информации при выборе блока
-function updateBlockInfoWithFetch(blockNumber) {
-    // Отправляем запрос на сервер с номером блока
-    submitLineNumber(blockNumber);
-
-    // Вызываем функцию для выделения блока
-    highlightBlock(blockNumber);
-}
-
 // Функция для отправки номера строки и текущей страницы на сервер
 function submitLineNumber(lineNumber, currentPageUrl) {
     // Отправляем данные на сервер
@@ -287,12 +283,12 @@ function submitLineNumber(lineNumber, currentPageUrl) {
         },
         body: JSON.stringify({ line_number: lineNumber, page_url: currentPageUrl })
     })
-    .then((response) => response.json())
-    .then((data) => {
-        // Обновляем содержимое страницы с полученными данными
-        displayBlockInfo(data);
-    })
-    .catch((error) => {
-        console.error('Ошибка:', error);
-    });
+        .then((response) => response.json())
+        .then((data) => {
+            // Обновляем содержимое страницы с полученными данными
+            displayBlockInfo(data);
+        })
+        .catch((error) => {
+            console.error('Ошибка:', error);
+        });
 }
