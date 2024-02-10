@@ -3,11 +3,11 @@
 const gridItems = document.querySelectorAll('.grid-item');
 gridItems.forEach((gridItem) => {
     gridItem.addEventListener('click', () => {
-        const blockId = gridItem.innerText; // предполагаем, что текст блока содержит его id
-        displayBlockInfo(blockId);
+        const blockNumber = gridItem.innerText; // предполагаем, что текст блока содержит его id
+        displayBlockInfo(blockNumber);
 
         // Вызываем функцию для изменения background-color
-        highlightBlock(gridItem);
+        // highlightBlock(blockNumber);
     });
 });
 

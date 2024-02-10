@@ -81,7 +81,8 @@ function generateGrid(columns, rows) {
             rowContainer.appendChild(gridItem);
         }
     }
+
     // Выводим идентификаторы блоков на консоль
-    const allBlockIds = document.querySelectorAll('.grid-item');
-    console.log('Идентификаторы всех блоков:', allBlockIds);
+    // const allBlockIds = document.querySelectorAll('.grid-item');
+    // console.log('Идентификаторы всех блоков:', allBlockIds);
 }

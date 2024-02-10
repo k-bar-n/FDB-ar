@@ -33,6 +33,7 @@ function getCurrentBlockId() {
 
 
 
+
 // Функция для изменения ширины блоков
 // function initResizer() {
 //     let isResizing = false;

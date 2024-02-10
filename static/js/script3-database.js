@@ -272,14 +272,14 @@ document.addEventListener('click', (event) => {
 });
 
 // Функция для отправки номера строки и текущей страницы на сервер
-function submitLineNumber(lineNumber, currentPageUrl) {
+function submitLineNumber(blockNumber, currentPageUrl) {
     // Отправляем данные на сервер
     fetch('/check', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ line_number: lineNumber, page_url: currentPageUrl })
+        body: JSON.stringify({ line_number: blockNumber, page_url: currentPageUrl })
     })
         .then((response) => response.json())
         .then((data) => {
