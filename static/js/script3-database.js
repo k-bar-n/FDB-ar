@@ -38,8 +38,8 @@ function displayBlockInfo(data) {
     }
 
     // Вызываем функции для создания кнопок и полей ввода
-    createButtons();
-    createDynamicElements();
+    // createButtons();
+    // createDynamicElements();
 }
 
 // Функция для создания кнопок динамически
@@ -206,7 +206,7 @@ function performAction() {
             }
 
             // Обновляем отображение информации
-            displayBlockInfo(data);
+            // displayBlockInfo(data);
 
             // Скрываем поле ввода
             const quantityInputContainer = document.getElementById('quantity-input-container');
@@ -255,21 +255,19 @@ document.addEventListener('click', (event) => {
     if (event.target.classList.contains('grid-item')) {
         const blockNumber = event.target.dataset.number; // Получаем значение data-number блока
 
-        // Отправляем запрос на сервер с номером блока
-        submitLineNumber(blockNumber);
-
         // Вызываем функцию для выделения блока
         highlightBlock(blockNumber);
 
         // Получаем ссылку на текущую страницу
         const currentPageUrl = window.location.href;
 
+        console.log(currentPageUrl)
+
         // Отправляем данные о блоке и ссылку на текущую страницу на сервер
         submitLineNumber(blockNumber, currentPageUrl);
 
-        // Передаем blockId в функцию
-        const blockId = event.target.dataset.number;
-        displayBlockInfo(blockId);
+        blockId = event.target.id.substring(5);
+        updateBlockInfo(blockId);
     }
 });
 
@@ -287,8 +285,42 @@ function submitLineNumber(lineNumber, currentPageUrl) {
         .then((data) => {
             // Обновляем содержимое страницы с полученными данными
             displayBlockInfo(data);
+            return data;
         })
         .catch((error) => {
             console.error('Ошибка:', error);
         });
+}
+
+// Функция для обновления информации о блоке на странице
+function updateBlockInfo(data) {
+    // Проверяем, есть ли данные
+    if (!data) {
+        console.error('Данные для блока не найдены.');
+        return;
+    }
+
+    // Устанавливаем заголовок и содержимое блока в зависимости от типа
+    const blockId = getCurrentBlockId();
+    const blockType1 = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
+    const blockType2 = window.location.href.includes('stellazh1') ? 'контейнера' : 'ячейки';
+
+    const blockInfo = {
+        title: `${blockType1} ${blockId}`,
+        content: `Информация о содержимом ${blockType2} ${blockId}:`,
+    };
+
+    // Обновляем отображение информации о блоке
+    const blockTitle = document.getElementById('block-title');
+    const blockContent = document.getElementById('block-content');
+    if (blockTitle && blockContent) {
+        blockTitle.innerText = blockInfo.title;
+        blockContent.innerText = blockInfo.content;
+    } else {
+        console.error('Элемент с id "block-title" или "block-content" не найден.');
+    }
+
+    // Вызываем функции для создания кнопок и полей ввода
+    createButtons();
+    createDynamicElements();
 }

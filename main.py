@@ -150,22 +150,30 @@ def zapusk_read_csv(row_number_to_extract):
 
 # Функция для обработки ссылки на страницу
 def process_page_url(page_url, block_number):
-    url_to_block_mapping = {  # Сопоставление URL страниц с номерами блоков
-        "map/stellazh1": 0,
-        "map/stellazh2/shelf1": 90,
-        "map/stellazh2/shelf2": 100,
-        "map/stellazh2/shelf3": 110,
-        "map/stellazh2/shelf4": 120,
-        "map/stellazh2/shelf5": 130,
-        "map/stellazh2/shelf6": 140,
-        "map/stellazh2/shelf7": 150,
-        "map/stellazh3/shelf1": 160,
-        "map/stellazh3/shelf2": 180,
-        "map/stellazh3/shelf3": 200
-    }
-    block_number += url_to_block_mapping.get(page_url, 0)  # Добавляем значение блока для указанного URL
-    print("Inside condition block_number:", block_number)  # Выводим значение block_number
-    return block_number  # Возвращаем обновленное значение block_number
+    if page_url == "map/stellazh1":
+        block_number = (int(block_number) + 0)
+    elif page_url == "map/stellazh2/shelf1":
+        block_number = (int(block_number) + 90)
+    elif page_url == "map/stellazh2/shelf2":
+        block_number = (int(block_number) + 100)
+    elif page_url == "map/stellazh2/shelf3":
+        block_number = (int(block_number) + 110)
+    elif page_url == "map/stellazh2/shelf4":
+        block_number = (int(block_number) + 120)
+    elif page_url == "map/stellazh2/shelf5":
+        block_number = (int(block_number) + 130)
+    elif page_url == "map/stellazh2/shelf6":
+        block_number = (int(block_number) + 140)
+    elif page_url == "map/stellazh2/shelf7":
+        block_number = (int(block_number) + 150)
+    elif page_url == "map/stellazh3/shelf1":
+        block_number = (int(block_number) + 160)
+    elif page_url == "map/stellazh3/shelf2":
+        block_number = (int(block_number) + 180)
+    elif page_url == "map/stellazh3/shelf3":
+        block_number = (int(block_number) + 200)
+    print("Inside condition block_number:", block_number)
+    return block_number
 
 
 # Маршрут для обработки запроса POST

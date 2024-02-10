@@ -30,45 +30,6 @@ function getCurrentBlockId() {
     return blockId;
 }
 
-document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('grid-item')) {
-        blockId = event.target.id.substring(5);
-        updateBlockInfo(blockId);
-    }
-});
-
-// Функция для обновления информации о блоке на странице
-function updateBlockInfo(data) {
-    // Проверяем, есть ли данные
-    if (!data) {
-        console.error('Данные для блока не найдены.');
-        return;
-    }
-
-    // Устанавливаем заголовок и содержимое блока в зависимости от типа
-    const blockId = getCurrentBlockId();
-    const blockType1 = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
-    const blockType2 = window.location.href.includes('stellazh1') ? 'контейнера' : 'ячейки';
-
-    const blockInfo = {
-        title: `${blockType1} ${blockId}`,
-        content: `Информация о содержимом ${blockType2} ${blockId}:`,
-    };
-
-    // Обновляем отображение информации о блоке
-    const blockTitle = document.getElementById('block-title');
-    const blockContent = document.getElementById('block-content');
-    if (blockTitle && blockContent) {
-        blockTitle.innerText = blockInfo.title;
-        blockContent.innerText = blockInfo.content;
-    } else {
-        console.error('Элемент с id "block-title" или "block-content" не найден.');
-    }
-
-    // Вызываем функции для создания кнопок и полей ввода
-    createButtons();
-    createDynamicElements();
-}
 
 
 
