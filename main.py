@@ -178,7 +178,7 @@ def process_page_url(page_url, block_number):
 
 # Маршрут для обработки запроса POST
 @app.route('/receiving_data_from_server', methods=['POST'])
-def check():
+def receiving_data_from_server():
     try:
         data = request.get_json()  # Получаем данные из POST запроса
         block_number = int(data.get('line_number')) if data.get('line_number') is not None else None

@@ -1,17 +1,46 @@
-// Глобальная переменная для хранения текущего ID блока
-let currentBlockId = null;
+// Функция для обработки событий клика по блоку
+document.addEventListener('click', (event) => {
+    // Обрабатываем событие клика по блоку (grid-item)
+    if (event.target.classList.contains('grid-item')) {
+        const blockNumber = event.target.dataset.number; // Получаем значение data-number блока
 
-// Генерирует HTML-разметку для информации о блоке на основе переданных данных.
-function generateBlockInfoHTML(data) {
-    return `
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
-    `;
+        // Вызываем функцию для выделения блока
+        highlightBlock(blockNumber);
+
+        // Получаем ссылку на текущую страницу
+        const currentPageUrl = window.location.href;
+
+        console.log(currentPageUrl)
+
+        // Отправляем данные о блоке и ссылку на текущую страницу на сервер
+        submitLineNumber(blockNumber, currentPageUrl);
+
+        blockId = event.target.id.substring(5);
+        updateBlockInfo(blockId);
+    }
+});
+
+// Функция для отправки номера строки и текущей страницы на сервер
+function submitLineNumber(blockNumber, currentPageUrl) {
+    // Отправляем данные на сервер
+    fetch('/receiving_data_from_server', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ line_number: blockNumber, page_url: currentPageUrl })
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // Обновляем содержимое страницы с полученными данными
+            displayBlockInfo(data);
+            return data;
+        })
+        .catch((error) => {
+            console.error('Ошибка:', error);
+        });
 }
+
 
 // Функция для обновления информации о блоке на странице с анимацией
 function displayBlockInfo(data) {
@@ -32,26 +61,70 @@ function displayBlockInfo(data) {
         // Убираем класс после завершения анимации
         setTimeout(() => {
             infoOfBlock.classList.remove('info-fade-in');
-        }, 500); // Время анимации в миллисекундах
+        }, 750); // Время анимации в миллисекундах
     } else {
         console.error('Элемент с id "info-of-block" не найден.');
     }
-
-    // Вызываем функции для создания кнопок и полей ввода
-    // createButtons();
-    // createDynamicElements();
 }
 
-// Функция для создания кнопок динамически
-function createButtons() {
-    // Создаем и добавляем кнопки "Взять" и "Положить" в контейнер,
-    // также удаляем существующие кнопки перед созданием новых.
+// Генерирует HTML-разметку для информации о блоке на основе переданных данных.
+function generateBlockInfoHTML(data) {
+    return `
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
+    `;
+}
+
+// Функция для обновления информации о блоке на странице
+function updateBlockInfo(data) {
+    // Проверяем, есть ли данные
+    if (!data) {
+        console.error('Данные для блока не найдены.');
+        return;
+    }
+
+    // Устанавливаем заголовок и содержимое блока в зависимости от типа
+    const blockId = getCurrentBlockId();
+    const blockType1 = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
+    const blockType2 = window.location.href.includes('stellazh1') ? 'контейнера' : 'ячейки';
+
+    const blockInfo = {
+        title: `${blockType1} ${blockId}`,
+        content: `Информация о содержимом ${blockType2} ${blockId}:`,
+    };
+
+    // Обновляем отображение информации о блоке
+    const blockTitle = document.getElementById('block-title');
+    const blockContent = document.getElementById('block-content');
+    if (blockTitle && blockContent) {
+        blockTitle.innerText = blockInfo.title;
+        blockContent.innerText = blockInfo.content;
+    } else {
+        console.error('Элемент с id "block-title" или "block-content" не найден.');
+    }
+
     const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
     if (!buttonsContainer) {
         console.error('Элемент с id "rabota-s-kolichestvom" не найден.');
         return;
     }
 
+    // Вызываем функции для создания кнопок и полей ввода
+    createButtons_Vzyat_Polozhit();
+    createDynamicElements();
+}
+
+// Функция для создания кнопок динамически
+function createButtons_Vzyat_Polozhit() {
+    const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+
+    // Создаем и добавляем кнопки "Взять" и "Положить" в контейнер,
+
+    // также удаляем существующие кнопки и элементы перед созданием новых.
     const existingButtons = document.querySelectorAll('.dynamic-button');
     existingButtons.forEach(button => {
         buttonsContainer.removeChild(button);
@@ -70,47 +143,6 @@ function createButtons() {
     btnPut.innerText = 'Положить';
     btnPut.onclick = () => showQuantityInput('Положить');
     buttonsContainer.appendChild(btnPut);
-}
-
-// Функция для создания кнопок, полей ввода и других элементов динамически
-function createDynamicElements() {
-    // Создаем и добавляем кнопки "Взять" и "Положить", поле ввода и кнопку "Готово",
-    // удаляем существующие кнопки и элементы перед созданием новых.
-    const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
-    if (!buttonsContainer) {
-        console.error('Элемент с id "rabota-s-kolichestvom" не найден.');
-        return;
-    }
-
-    const quantityInputContainer = document.getElementById('quantity-input-container');
-    if (quantityInputContainer) {
-        quantityInputContainer.parentNode.removeChild(quantityInputContainer);
-    }
-
-    // Создаем кнопки "Взять" и "Положить"
-    createButtons();
-
-    // Создаем контейнер для поля ввода и кнопки "Готово"
-    const newQuantityInputContainer = document.createElement('div');
-    newQuantityInputContainer.id = 'quantity-input-container';
-
-    // Создаем поле ввода
-    const quantityInput = document.createElement('input');
-    quantityInput.type = 'number';
-    quantityInput.id = 'quantity-input';
-
-    // Создаем кнопку "Готово"
-    const btnConfirm = document.createElement('button');
-    btnConfirm.id = 'btn-confirm';
-    btnConfirm.innerText = 'Готово';
-    btnConfirm.onclick = performAction;
-
-    // Добавляем элементы к контейнеру
-    newQuantityInputContainer.appendChild(quantityInput);
-    newQuantityInputContainer.appendChild(btnConfirm);
-
-    // Добавляем контейнер к buttonsContainer
-    buttonsContainer.appendChild(newQuantityInputContainer);
 }
 
 // Функция для отображения поля ввода количества
@@ -135,8 +167,59 @@ function showQuantityInput(action) {
     fadeIn(quantityInputContainer);
 }
 
+// Функция для плавного появления элемента
+function fadeIn(element) {
+    // Плавно увеличивает прозрачность элемента для создания эффекта появления
+    element.style.opacity = 0;
+    (function fade() {
+        var val = parseFloat(element.style.opacity);
+        if (!((val += 0.1) > 1)) {
+            element.style.opacity = val;
+            requestAnimationFrame(fade);
+        }
+    })();
+}
+
+// Функция для создания кнопок, полей ввода и других элементов динамически
+function createDynamicElements() {
+    const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+
+    // Создаем и добавляем поле ввода и кнопку "Готово",
+
+    // также удаляем существующие кнопки и элементы перед созданием новых.
+    const quantityInputContainer = document.getElementById('quantity-input-container');
+    if (quantityInputContainer) {
+        quantityInputContainer.parentNode.removeChild(quantityInputContainer);
+    }
+
+    // Создаем контейнер для поля ввода и кнопки "Готово"
+    const newQuantityInputContainer = document.createElement('div');
+    newQuantityInputContainer.id = 'quantity-input-container';
+
+    // Создаем поле ввода
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.id = 'quantity-input';
+
+    // Создаем кнопку "Готово"
+    const btnConfirm = document.createElement('button');
+    btnConfirm.id = 'btn-confirm';
+    btnConfirm.innerText = 'Готово';
+    btnConfirm.onclick = performAction_Vzyat_Polozhit;
+
+    // Добавляем элементы к контейнеру
+    newQuantityInputContainer.appendChild(quantityInput);
+    newQuantityInputContainer.appendChild(btnConfirm);
+
+    // Добавляем контейнер к buttonsContainer
+    buttonsContainer.appendChild(newQuantityInputContainer);
+}
+
+// Глобальная переменная для хранения текущего ID блока
+// let currentBlockId = null;
+
 // Функция для выполнения действия в зависимости от выбора "Взять" или "Положить"
-function performAction() {
+function performAction_Vzyat_Polozhit() {
     // Выполняет действие (взять/положить) в зависимости от выбора пользователя.
     // Проверка существования элемента
     const btnConfirm = document.getElementById('btn-confirm');
@@ -152,9 +235,9 @@ function performAction() {
     }
 
     const action = btnConfirm.dataset.action || '';
-    const blockId = currentBlockId; // Используем глобальную переменную currentBlockId
+    const blockId = getCurrentBlockId();
 
-    var block = document.getElementById(blockId);
+    var block = document.getElementById(`block${blockId}`);
 
     if (!block) {
         console.error('Элемент с id ' + blockId + ' не найден.');
@@ -205,9 +288,6 @@ function performAction() {
                 data.quantity += quantity;
             }
 
-            // Обновляем отображение информации
-            // displayBlockInfo(data);
-
             // Скрываем поле ввода
             const quantityInputContainer = document.getElementById('quantity-input-container');
             if (quantityInputContainer) {
@@ -222,18 +302,6 @@ function performAction() {
         });
 }
 
-// Функция для плавного появления элемента
-function fadeIn(element) {
-    // Плавно увеличивает прозрачность элемента для создания эффекта появления
-    element.style.opacity = 0;
-    (function fade() {
-        var val = parseFloat(element.style.opacity);
-        if (!((val += 0.1) > 1)) {
-            element.style.opacity = val;
-            requestAnimationFrame(fade);
-        }
-    })();
-}
 
 function fadeOut(element) {
     // Плавно уменьшает прозрачность элемента для создания эффекта исчезновения
@@ -246,81 +314,5 @@ function fadeOut(element) {
                 requestAnimationFrame(fade);
             }
         })();
-    }, 300); // Задержка перед началом исчезновения (300 миллисекунд)
-}
-
-// Функция для обработки событий клика по блоку
-document.addEventListener('click', (event) => {
-    // Обрабатываем событие клика по блоку (grid-item)
-    if (event.target.classList.contains('grid-item')) {
-        const blockNumber = event.target.dataset.number; // Получаем значение data-number блока
-
-        // Вызываем функцию для выделения блока
-        highlightBlock(blockNumber);
-
-        // Получаем ссылку на текущую страницу
-        const currentPageUrl = window.location.href;
-
-        console.log(currentPageUrl)
-
-        // Отправляем данные о блоке и ссылку на текущую страницу на сервер
-        submitLineNumber(blockNumber, currentPageUrl);
-
-        blockId = event.target.id.substring(5);
-        updateBlockInfo(blockId);
-    }
-});
-
-// Функция для отправки номера строки и текущей страницы на сервер
-function submitLineNumber(blockNumber, currentPageUrl) {
-    // Отправляем данные на сервер
-    fetch('/receiving_data_from_server', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ line_number: blockNumber, page_url: currentPageUrl })
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            // Обновляем содержимое страницы с полученными данными
-            displayBlockInfo(data);
-            return data;
-        })
-        .catch((error) => {
-            console.error('Ошибка:', error);
-        });
-}
-
-// Функция для обновления информации о блоке на странице
-function updateBlockInfo(data) {
-    // Проверяем, есть ли данные
-    if (!data) {
-        console.error('Данные для блока не найдены.');
-        return;
-    }
-
-    // Устанавливаем заголовок и содержимое блока в зависимости от типа
-    const blockId = getCurrentBlockId();
-    const blockType1 = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
-    const blockType2 = window.location.href.includes('stellazh1') ? 'контейнера' : 'ячейки';
-
-    const blockInfo = {
-        title: `${blockType1} ${blockId}`,
-        content: `Информация о содержимом ${blockType2} ${blockId}:`,
-    };
-
-    // Обновляем отображение информации о блоке
-    const blockTitle = document.getElementById('block-title');
-    const blockContent = document.getElementById('block-content');
-    if (blockTitle && blockContent) {
-        blockTitle.innerText = blockInfo.title;
-        blockContent.innerText = blockInfo.content;
-    } else {
-        console.error('Элемент с id "block-title" или "block-content" не найден.');
-    }
-
-    // Вызываем функции для создания кнопок и полей ввода
-    createButtons();
-    createDynamicElements();
+    }, 500); // Задержка перед началом исчезновения (300 миллисекунд)
 }

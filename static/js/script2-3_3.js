@@ -1,5 +1,7 @@
 // Добавляем обработчики событий для блоков с классом "grid-item" или "grid-item-1"
 // const gridItems = document.querySelectorAll('.grid-item, .grid-item-1');
+
+/*
 const gridItems = document.querySelectorAll('.grid-item');
 gridItems.forEach((gridItem) => {
     gridItem.addEventListener('click', () => {
@@ -10,6 +12,7 @@ gridItems.forEach((gridItem) => {
         // highlightBlock(blockNumber);
     });
 });
+*/
 
 /*
 // Функция для изменения background-color у выбранного блока

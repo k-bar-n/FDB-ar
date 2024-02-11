@@ -74,10 +74,17 @@ function generateGrid(columns, rows) {
             }
 
             gridItem.textContent = blockId;
+
+            /*
+
+            // !!! !!! !!!
+
             gridItem.onclick = (event) => {
                 const blockNumber = event.target.dataset.number;
                 displayBlockInfo(blockNumber);
             };
+            */
+
             rowContainer.appendChild(gridItem);
         }
     }

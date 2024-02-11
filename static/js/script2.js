@@ -27,6 +27,7 @@ let blockId = null;
 
 // Функция для получения текущего ID блока
 function getCurrentBlockId() {
+    console.log(blockId)
     return blockId;
 }
 
