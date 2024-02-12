@@ -22,6 +22,7 @@ function highlightBlock(blockNumber) {
     }
 }
 
+
 // Глобальная переменная для отслеживания текущего ID блока
 let blockId = null;
 
@@ -32,7 +33,16 @@ function getCurrentBlockId() {
 }
 
 
+// Глобальная переменная для отслеживания ссылки на текущую страницу
+let currentPageUrl = null;
 
+// Функция для получения ссылки на текущую страницу
+function getСurrentPageUrl() {
+    const currentPageUrl = window.location.href;
+    
+    console.log(currentPageUrl)
+    return currentPageUrl;
+}
 
 
 // Функция для изменения ширины блоков

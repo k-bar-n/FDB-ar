@@ -1,19 +1,28 @@
+// Глобальная переменная для отслеживания текущего blockNumber блока
+let currentBlockNumber = null;
+
+// Глобальная переменная для отслеживания текущего blockNumber блока
+let dataquantity = null;
+
 // Функция для обработки событий клика по блоку
 document.addEventListener('click', (event) => {
     // Обрабатываем событие клика по блоку (grid-item)
     if (event.target.classList.contains('grid-item')) {
-        const blockNumber = event.target.dataset.number; // Получаем значение data-number блока
+        // Получаем текущий blockNumber
+        currentBlockNumber = event.target.dataset.number;
+
+        console.log(currentBlockNumber);
 
         // Вызываем функцию для выделения блока
-        highlightBlock(blockNumber);
+        highlightBlock(currentBlockNumber);
 
         // Получаем ссылку на текущую страницу
-        const currentPageUrl = window.location.href;
+        const currentPageUrl = getСurrentPageUrl();
 
-        console.log(currentPageUrl)
+        // console.log(currentPageUrl)
 
         // Отправляем данные о блоке и ссылку на текущую страницу на сервер
-        submitLineNumber(blockNumber, currentPageUrl);
+        submitLineNumber(currentBlockNumber, currentPageUrl);
 
         blockId = event.target.id.substring(5);
         updateBlockInfo(blockId);
@@ -30,7 +39,12 @@ function submitLineNumber(blockNumber, currentPageUrl) {
         },
         body: JSON.stringify({ line_number: blockNumber, page_url: currentPageUrl })
     })
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Ошибка при получении данных с сервера');
+            }
+            return response.json();
+        })
         .then((data) => {
             // Обновляем содержимое страницы с полученными данными
             displayBlockInfo(data);
@@ -44,6 +58,9 @@ function submitLineNumber(blockNumber, currentPageUrl) {
 
 // Функция для обновления информации о блоке на странице с анимацией
 function displayBlockInfo(data) {
+    dataquantity = data.quantity;
+    console.log("data.quantity = " + "!" + dataquantity + "!" + " (Если между восклицательными знаками ничего нет, то значит значение data.quantity)")
+
     // Проверяем, есть ли данные
     if (!data) {
         console.error('Данные для блока не найдены.');
@@ -115,15 +132,16 @@ function updateBlockInfo(data) {
 
     // Вызываем функции для создания кнопок и полей ввода
     createButtons_Vzyat_Polozhit();
-    createDynamicElements();
 }
 
 // Функция для создания кнопок динамически
 function createButtons_Vzyat_Polozhit() {
     const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
 
-    // Создаем и добавляем кнопки "Взять" и "Положить" в контейнер,
+    // Удаляем все предыдущие кнопки и элементы внутри контейнера
+    buttonsContainer.innerHTML = '';
 
+    // Создаем и добавляем кнопки "Взять" и "Положить" в контейнер,
     // также удаляем существующие кнопки и элементы перед созданием новых.
     const existingButtons = document.querySelectorAll('.dynamic-button');
     existingButtons.forEach(button => {
@@ -134,14 +152,20 @@ function createButtons_Vzyat_Polozhit() {
     const btnTake = document.createElement('button');
     btnTake.className = 'dynamic-button';
     btnTake.innerText = 'Взять';
-    btnTake.onclick = () => showQuantityInput('Взять');
+    btnTake.onclick = () => {
+        createDynamicElements();
+        showQuantityInput('Взять');
+    };
     buttonsContainer.appendChild(btnTake);
 
     // Создаем кнопку "Положить"
     const btnPut = document.createElement('button');
     btnPut.className = 'dynamic-button';
     btnPut.innerText = 'Положить';
-    btnPut.onclick = () => showQuantityInput('Положить');
+    btnPut.onclick = () => {
+        createDynamicElements();
+        showQuantityInput('Положить');
+    };
     buttonsContainer.appendChild(btnPut);
 }
 
@@ -149,6 +173,7 @@ function createButtons_Vzyat_Polozhit() {
 function showQuantityInput(action) {
     // Устанавливает текст и видимость поля ввода в зависимости от выбранного действия.
     const quantityInputContainer = document.getElementById('quantity-input-container');
+
     if (!quantityInputContainer) {
         console.error('Элемент с id "quantity-input-container" не найден.');
         return;
@@ -192,6 +217,7 @@ function createDynamicElements() {
         quantityInputContainer.parentNode.removeChild(quantityInputContainer);
     }
 
+
     // Создаем контейнер для поля ввода и кнопки "Готово"
     const newQuantityInputContainer = document.createElement('div');
     newQuantityInputContainer.id = 'quantity-input-container';
@@ -215,13 +241,18 @@ function createDynamicElements() {
     buttonsContainer.appendChild(newQuantityInputContainer);
 }
 
-// Глобальная переменная для хранения текущего ID блока
-// let currentBlockId = null;
-
 // Функция для выполнения действия в зависимости от выбора "Взять" или "Положить"
-function performAction_Vzyat_Polozhit() {
+function performAction_Vzyat_Polozhit(data) {
     // Выполняет действие (взять/положить) в зависимости от выбора пользователя.
     // Проверка существования элемента
+
+    // Получаем текущий blockNumber
+    const blockNumber = currentBlockNumber;
+    console.log(blockNumber)
+
+    // Получаем ссылку на текущую страницу
+    const currentPageUrl = getСurrentPageUrl();
+
     const btnConfirm = document.getElementById('btn-confirm');
     if (!btnConfirm) {
         console.error('Элемент с id "btn-confirm" не найден.');
@@ -251,68 +282,80 @@ function performAction_Vzyat_Polozhit() {
         return;
     }
 
-    // Выводим значение атрибута data-number
-    console.log("Значение data-number блока:", dataNumber);
+    // Проверяем, что введено натуральное число
+    let quantity = parseInt(quantityInput.value);
+    if (isNaN(quantity) || quantity <= 0) {
+        alert('Пожалуйста, введите натуральное число.');
+        return;
+    }
 
-    // Получаем данные о блоке с сервера
+    console.log(dataquantity, quantity)
+
+    // Выполняем действие в зависимости от выбранного "Взять" или "Положить"
+    if (action === 'Взять') {
+        if (quantity > dataquantity) {
+            alert('Нельзя взять больше, чем есть в наличии.');
+            return; // Убрать эту строку, чтобы код продолжал выполнение
+        }
+        quantity = (-1) * quantity;
+    } else if (action === 'Положить') {
+        quantity = quantity;
+    }
+
+
+    // Проверяем корректность значения quantity
+    if (quantity === null || isNaN(quantity)) {
+        console.error('Некорректное значение quantity:', quantity);
+        return;
+    }
+
+    // Отправляем данные о блоке и ссылку на текущую страницу на сервер
+    submitcheck(blockNumber, currentPageUrl, quantity);
+
+    // Скрываем поле ввода
+    const quantityInputContainer = document.getElementById('quantity-input-container');
+    if (quantityInputContainer) {
+        fadeOut(quantityInputContainer);
+    }
+
+    // Очищаем поле ввода
+    quantityInput.value = '';
+}
+
+function submitcheck(blockNumber, currentPageUrl, quantity) {
+    // Отправляем данные на сервер
     fetch('/check', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ dataNumber: dataNumber }) // убедитесь, что ключ совпадает с ожидаемым на сервере
+        body: JSON.stringify({ line_number: blockNumber, currentPageUrl: currentPageUrl, quantity: quantity })
     })
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Ошибка при получении данных с сервера');
+            }
+            return response.json();
+        })
         .then((data) => {
-            // Проверяем, есть ли данные
-            if (!data) {
-                console.error('Данные для блока не найдены.');
-                return;
-            }
-
-            // Проверяем, что введено натуральное число
-            const quantity = parseInt(quantityInput.value);
-            if (isNaN(quantity) || quantity <= 0) {
-                alert('Пожалуйста, введите натуральное число.');
-                return;
-            }
-
-            // Выполняем действие в зависимости от выбранного "Взять" или "Положить"
-            if (action === 'Взять') {
-                if (quantity > data.quantity) {
-                    alert('Нельзя взять больше, чем есть в наличии.');
-                    return;
-                }
-                data.quantity -= quantity;
-            } else if (action === 'Положить') {
-                data.quantity += quantity;
-            }
-
-            // Скрываем поле ввода
-            const quantityInputContainer = document.getElementById('quantity-input-container');
-            if (quantityInputContainer) {
-                fadeOut(quantityInputContainer);
-            }
-
-            // Очищаем поле ввода
-            quantityInput.value = '';
+            // Обновляем содержимое страницы с полученными данными
+            displayBlockInfo(data);
+            return data;
         })
         .catch((error) => {
             console.error('Ошибка:', error);
         });
 }
 
-
 function fadeOut(element) {
     // Плавно уменьшает прозрачность элемента для создания эффекта исчезновения
-    element.style.opacity = 1;
-    setTimeout(function () {
-        (function fade() {
-            if ((element.style.opacity -= 0.1) < 0) {
-                element.style.display = 'none';
-            } else {
-                requestAnimationFrame(fade);
-            }
-        })();
-    }, 500); // Задержка перед началом исчезновения (300 миллисекунд)
+    let opacity = 1;
+    const interval = setInterval(() => {
+        if ((opacity -= 0.1) < 0) {
+            clearInterval(interval);
+            element.style.display = 'none';
+        } else {
+            element.style.opacity = opacity;
+        }
+    }, 250);
 }

@@ -10,6 +10,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # Инициализация Flask приложения
 app = Flask(__name__)
 
+# CSRF защита
+app.config['SECRET_KEY'] = 'your_secret_key'
 
 # Инициализация фонового планировщика
 scheduler = BackgroundScheduler()
@@ -115,6 +117,10 @@ def index_map_stellazh3_shelf3():
     return render_template("Map/St3/Mp_st3_3.html")
 
 
+# Имя файла определено как глобальная переменная
+CSV_FILE_NAME = 'Krepozh.csv'
+
+
 # Функция для чтения CSV файла
 def read_csv(file_name, row_number_to_extract):
     script_dir = os.path.dirname(__file__)  # Получаем путь к текущему файлу
@@ -137,11 +143,10 @@ def read_csv(file_name, row_number_to_extract):
 
 # Функция для запуска чтения CSV файла
 def zapusk_read_csv(row_number_to_extract):
-    csv_file_name = 'Krepozh.csv'  # Имя CSV файла
     data_csv_base = None  # Инициализируем переменную для хранения данных из CSV файла
 
     try:
-        data_csv_base = read_csv(csv_file_name, row_number_to_extract)  # Читаем данные из CSV файла
+        data_csv_base = read_csv(CSV_FILE_NAME, row_number_to_extract)  # Читаем данные из CSV файла
     except Exception as e:
         print(f"Произошла ошибка при чтении файла CSV: {str(e)}")
 
@@ -151,38 +156,40 @@ def zapusk_read_csv(row_number_to_extract):
 # Функция для обработки ссылки на страницу
 def process_page_url(page_url, block_number):
     if page_url == "map/stellazh1":
-        block_number = (int(block_number) + 1)
+        block_number = (int(block_number) + 0)
     elif page_url == "map/stellazh2/shelf1":
-        block_number = (int(block_number) + 91)
+        block_number = (int(block_number) + 90)
     elif page_url == "map/stellazh2/shelf2":
-        block_number = (int(block_number) + 101)
+        block_number = (int(block_number) + 100)
     elif page_url == "map/stellazh2/shelf3":
-        block_number = (int(block_number) + 111)
+        block_number = (int(block_number) + 110)
     elif page_url == "map/stellazh2/shelf4":
-        block_number = (int(block_number) + 121)
+        block_number = (int(block_number) + 120)
     elif page_url == "map/stellazh2/shelf5":
-        block_number = (int(block_number) + 131)
+        block_number = (int(block_number) + 130)
     elif page_url == "map/stellazh2/shelf6":
-        block_number = (int(block_number) + 141)
+        block_number = (int(block_number) + 140)
     elif page_url == "map/stellazh2/shelf7":
-        block_number = (int(block_number) + 151)
+        block_number = (int(block_number) + 150)
     elif page_url == "map/stellazh3/shelf1":
-        block_number = (int(block_number) + 161)
+        block_number = (int(block_number) + 160)
     elif page_url == "map/stellazh3/shelf2":
-        block_number = (int(block_number) + 181)
+        block_number = (int(block_number) + 180)
     elif page_url == "map/stellazh3/shelf3":
-        block_number = (int(block_number) + 201)
-    print("Inside condition block_number:", block_number)
+        block_number = (int(block_number) + 200)
+    print("Inside condition (Внутреннее состояние) block_number:", block_number)
     return block_number
 
 
-# Маршрут для обработки запроса POST
+# Маршрут для обработки запроса /receiving_data_from_server POST
 @app.route('/receiving_data_from_server', methods=['POST'])
 def receiving_data_from_server():
     try:
         data = request.get_json()  # Получаем данные из POST запроса
         block_number = int(data.get('line_number')) if data.get('line_number') is not None else None
         page_url = data.get('page_url')
+
+        print(data)
 
         if block_number is None:  # Проверяем наличие номера блока
             return jsonify({'error': 'Не указан ни номер блока, ни номер строки'})
@@ -191,11 +198,9 @@ def receiving_data_from_server():
             page_url = page_url.split("//")[-1].split('/', 1)[-1]  # Удаляем протокол и домен из URL
             print(f"Processed page_url: {page_url}")
 
-            original_block_number = block_number  # Сохраняем исходное значение block_number
+            # print(f"Первоначальное значение block_number = {block_number}")
             block_number = process_page_url(page_url, block_number)  # Обновляем значение block_number
-
-            if block_number == original_block_number:  # Проверяем, изменилось ли значение block_number
-                return jsonify({'error': 'Значение block_number не было изменено'})
+            # print(f"Изменённое значение block_number = {block_number}")
 
         data_csv_row = zapusk_read_csv(block_number)  # Читаем строку из CSV файла
 
@@ -221,6 +226,92 @@ def receiving_data_from_server():
 
     except Exception as e:  # Обработка исключений
         print(f"Произошла ошибка: {str(e)}")
+        return jsonify({'error': str(e)})  # Возвращаем ошибку в формате JSON
+
+
+# Функция для чтения CSV файла
+def update_csv_element(file_path, row_index, element_index, change_value):
+    try:
+        with open(file_path, 'r', newline='') as file:
+            csv_reader = csv.reader(file, delimiter=';')
+            lines = list(csv_reader)
+
+        if row_index < len(lines):
+            if element_index < len(lines[row_index]):
+                current_value = lines[row_index][element_index]
+                updated_value = int(current_value) + change_value
+                lines[row_index][element_index] = str(updated_value)
+
+                with open(file_path, 'w', newline='') as file:
+                    csv_writer = csv.writer(file, delimiter=';')
+                    csv_writer.writerows(lines)
+                return True
+            else:
+                print(f"Element index {element_index} is out of range in row {row_index}")
+        else:
+            print(f"Row index {row_index} is out of range")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    return False
+
+
+def zapusk_update_csv_element(row_index, change_value):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, 'static/data', CSV_FILE_NAME)
+    element_index = 10
+
+    result = update_csv_element(file_path, row_index, element_index, change_value)
+    return result
+
+
+# Маршрут для обработки запроса /check POST
+@app.route('/check', methods=['POST'])
+def check():
+    try:
+        data = request.get_json()  # Получаем данные из POST запроса
+        block_number = int(data.get('line_number'))
+        page_url = data.get('currentPageUrl')
+        quantity = data.get('quantity')
+
+        print(data)
+
+        if page_url is not None:  # Проверяем наличие URL страницы
+            page_url = page_url.split("//")[-1].split('/', 1)[-1]  # Удаляем протокол и домен из URL
+            print(f"Processed page_url: {page_url}")
+
+            # print(f"Первоначальное значение block_number = {block_number}")
+            block_number = process_page_url(page_url, block_number)  # Обновляем значение block_number
+            # print(f"Изменённое значение block_number = {block_number}")
+
+        zapusk_update_csv_element_p = zapusk_update_csv_element(block_number, quantity)
+
+        if zapusk_update_csv_element_p:
+            data_csv_row = zapusk_read_csv(block_number)  # Читаем строку из CSV файла
+
+            # Инициализация переменных для данных из CSV
+            material, tipe, standard, diameter, length, quantity = "", "", "", "", "", ""
+
+            if data_csv_row:  # Проверяем наличие данных из CSV
+                # Извлекаем данные из строки CSV
+                print(f"Data from zapusk_read_csv: {data_csv_row}")
+                material, tipe, standard, diameter, length, quantity = data_csv_row[5:11]
+                print(material, "-", tipe, "-", standard, "-", diameter, "-", length, "-", quantity)
+
+            return jsonify({
+                'success': True,
+                'data_csv_row': data_csv_row,
+                'material': material,
+                'tipe': tipe,
+                'standard': standard,
+                'diameter': diameter,
+                'length': length,
+                'quantity': quantity,
+                'page_url': page_url
+            })
+
+    except Exception as e:  # Обработка исключений
         return jsonify({'error': str(e)})  # Возвращаем ошибку в формате JSON
 
 

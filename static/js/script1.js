@@ -10,6 +10,8 @@ function redirectToAnotherPage3() {
 function redirectToAnotherPage4() {
     window.location.href = '/page3'
 }
+
+// Стеллажи
 function redirectToAnotherPage5() {
     window.location.href = '/map/stellazh1'
 }
@@ -20,7 +22,7 @@ function redirectToAnotherPage7() {
     window.location.href = '/map/stellazh3'
 }
 
-// Стелаж 2
+// Стеллаж 2
 function redirectToAnotherPage61() {
     window.location.href = '/map/stellazh2/shelf1'
 }
@@ -43,7 +45,7 @@ function redirectToAnotherPage67() {
     window.location.href = '/map/stellazh2/shelf7'
 }
 
-// Стелаж 3
+// Стеллаж 3
 function redirectToAnotherPage91() {
     window.location.href = '/map/stellazh3/shelf1'
 }
