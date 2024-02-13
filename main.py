@@ -11,7 +11,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 
 # CSRF защита
-app.config['SECRET_KEY'] = 'your_secret_key'
+# app.config['SECRET_KEY'] = 'your_secret_key'
 
 # Инициализация фонового планировщика
 scheduler = BackgroundScheduler()
