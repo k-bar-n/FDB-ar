@@ -242,7 +242,7 @@ function createDynamicElements() {
 }
 
 // Функция для выполнения действия в зависимости от выбора "Взять" или "Положить"
-function performAction_Vzyat_Polozhit(data) {
+function performAction_Vzyat_Polozhit() {
     // Выполняет действие (взять/положить) в зависимости от выбора пользователя.
     // Проверка существования элемента
 
