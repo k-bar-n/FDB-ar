@@ -1,3 +1,44 @@
+html {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    background-color: #f4f4f4;  
+    margin: 0;
+    text-align: center;
+    /* image-orientation: center; */
+}
+
+/* шрифт на сайте */
+@font-face {
+    font-family: 'GOST_Type_A';
+    src: url('/static/fonts/GOST_Type_A.ttf') format('truetype');
+}
+
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    /* transition: 0.5s; */
+
+    font-family: 'GOST_Type_A', sans-serif;
+}
+
+/* запрещает делать печать страницы */
+@media print {
+    body {
+        display: none;
+    }
+}
+
+
+
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -7,19 +48,6 @@
 
 
 header {
-    top: 0;
-    width: 100vw;
-    /* position: fixed; */
-    color: black;
-    display: block;
-    justify-content: center;
-    /* margin: 0.5vh; */
-    /* height: 10vw; */
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #333;
-    padding-bottom: 1vh;
-
     /* background-image: url('/static/images/main-image.jpg'); */
     /* background-size: cover; */
     /* contain / contain в зависимости от ваших предпочтений */
@@ -34,15 +62,66 @@ header {
     /* background-repeat: no-repeat; */
     /* повторение фона */
 
+    top: 0;
+    width: 100vw;
+    background-color: #333;
+
+    color: black;
+
+    /* position: fixed; */
+    
+    display: block;
+    justify-content: center;
+
+    /* margin: 0.5vh; */
+    /* height: 10vw; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    
+    padding-bottom: 1vh;
+
     /* Применение transition только к свойству transform */
     transition: background-color 0.5s ease;
 }
 
+footer {
+    bottom: 0;
+    width: 100vw;
+    background-color: #333;
+
+    color: #fff;
+
+    display: flex;
+    justify-content: center;
+
+    /* padding: 1em; */
+
+    height: 8vh;
+    font-size: 1vmax;
+
+    position: fixed;
+    align-items: center;
+
+    /* Применение transition только к свойству transform */
+    transition: background-color 0.5s ease;
+}
+
+
+/*
 header:hover {
     background-color: #444;
     opacity: 0.9;
     transition: 300ms;
 }
+*/
+
+/*
+footer:hover {
+    background-color: #444;
+    opacity: 0.9;
+    transition: 300ms;
+}
+*/
 
 .main-image {
     color: black;
@@ -123,28 +202,6 @@ main {
     padding-right: 1vw; */
 }
 
-footer {
-    background-color: #333;
-    color: #fff;
-    /* padding: 1em; */
-    bottom: 0;
-    width: 100vw;
-    height: 8vh;
-    position: fixed;
-    font-size: 1vmax;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Применение transition только к свойству transform */
-    transition: background-color 0.5s ease;
-}
-
-footer:hover {
-    background-color: #444;
-    opacity: 0.9;
-    transition: 300ms;
-}
-
 .ssylka {
     color: #0066cc;
     text-decoration: none;
@@ -217,7 +274,8 @@ footer:hover {
     margin-left: auto;
     margin-right: auto;
     justify-content: space-evenly;
-    flex-direction: column; /* Добавлено свойство для вертикального расположения */
+    flex-direction: column;
+    /* Добавлено свойство для вертикального расположения */
 }
 
 .shelf {

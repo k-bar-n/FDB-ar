@@ -29,7 +29,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// Функция для отправки номера строки и текущей страницы на сервер
+// Функция для отправки номера выбранного блока и адреса текущей страницы на сервер и возврата данных на страницу
 function submitLineNumber(blockNumber, currentPageUrl) {
     // Отправляем данные на сервер
     fetch('/receiving_data_from_server', {
@@ -87,16 +87,16 @@ function displayBlockInfo(data) {
 // Генерирует HTML-разметку для информации о блоке на основе переданных данных.
 function generateBlockInfoHTML(data) {
     return `
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Материал:</a> &nbsp; ${data.material}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Тип:</a> &nbsp; ${data.tipe}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Стандарт:</a> &nbsp; ${data.standard}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Длина, мм:</a> &nbsp; ${data.length}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;">Количество, шт:</a> &nbsp; ${data.quantity}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Материал:</a> &nbsp; ${data.material}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Тип:</a> &nbsp; ${data.tipe}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Стандарт:</a> &nbsp; ${data.standard}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Диаметр, мм:</a> &nbsp; ${data.diameter}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Длина, мм:</a> &nbsp; ${data.length}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Количество, шт:</a> &nbsp; ${data.quantity}</p>
     `;
 }
 
-// Функция для обновления информации о блоке на странице
+// Функция для обновления информации (что выбрана/выбран за ячейка/контейнер) о блоке на странице
 function updateBlockInfo(data) {
     // Проверяем, есть ли данные
     if (!data) {
@@ -134,7 +134,7 @@ function updateBlockInfo(data) {
     createButtons_Vzyat_Polozhit();
 }
 
-// Функция для создания кнопок динамически
+// Функция для создания кнопок "Взять" и "Положить" динамически
 function createButtons_Vzyat_Polozhit() {
     const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
 
@@ -169,6 +169,10 @@ function createButtons_Vzyat_Polozhit() {
     buttonsContainer.appendChild(btnPut);
 }
 
+
+
+
+
 // Функция для отображения поля ввода количества
 function showQuantityInput(action) {
     // Устанавливает текст и видимость поля ввода в зависимости от выбранного действия.
@@ -192,7 +196,7 @@ function showQuantityInput(action) {
     fadeIn(quantityInputContainer);
 }
 
-// Функция для плавного появления элемента
+// Функция для плавного появления поля ввода
 function fadeIn(element) {
     // Плавно увеличивает прозрачность элемента для создания эффекта появления
     element.style.opacity = 0;
@@ -240,6 +244,10 @@ function createDynamicElements() {
     // Добавляем контейнер к buttonsContainer
     buttonsContainer.appendChild(newQuantityInputContainer);
 }
+
+
+
+
 
 // Функция для выполнения действия в зависимости от выбора "Взять" или "Положить"
 function performAction_Vzyat_Polozhit() {
@@ -322,6 +330,7 @@ function performAction_Vzyat_Polozhit() {
     quantityInput.value = '';
 }
 
+// Функция для отправки данных о выбранном блоке и адреса текущей страницы на сервер и возврата данных на страницу
 function submitcheck(blockNumber, currentPageUrl, quantity) {
     // Отправляем данные на сервер
     fetch('/check', {
@@ -347,6 +356,7 @@ function submitcheck(blockNumber, currentPageUrl, quantity) {
         });
 }
 
+// Функция для плавного исчезновения поля ввода
 function fadeOut(element) {
     // Плавно уменьшает прозрачность элемента для создания эффекта исчезновения
     let opacity = 1;

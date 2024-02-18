@@ -26,7 +26,7 @@ function highlightBlock(blockNumber) {
 // Глобальная переменная для отслеживания текущего ID блока
 let blockId = null;
 
-// Функция для получения текущего ID блока
+// Функция получения текущего ID выбранного блока
 function getCurrentBlockId() {
     console.log(blockId)
     return blockId;
@@ -43,6 +43,9 @@ function getСurrentPageUrl() {
     console.log(currentPageUrl)
     return currentPageUrl;
 }
+
+
+
 
 
 // Функция для изменения ширины блоков
