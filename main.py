@@ -227,7 +227,7 @@ def over_zapusk_read_csv(block_number):
 # -----------------------------------------------
 
 
-# Функция для чтения CSV файла
+# Функция, которая обновляет значение элемента (а именно количества) в CSV-файле
 def update_csv_element(file_path, row_index, element_index, change_value):
     try:
         with open(file_path, 'r', newline='') as file:
@@ -256,6 +256,7 @@ def update_csv_element(file_path, row_index, element_index, change_value):
     return False
 
 
+# Вспомогательная функция, которая предназначена для запуска update_csv_element
 def zapusk_update_csv_element(row_index, change_value):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(script_dir, 'static/data', CSV_FILE_NAME)
@@ -339,7 +340,10 @@ def check():
         if block_number is None:  # Проверяем наличие номера блока
             return jsonify({'error': 'Не указан ни номер блока, ни номер строки'})
 
-        if page_url is not None:  # Проверяем наличие URL страницы
+        # Проверяем наличие URL страницы, сделано исключительно для проверки,
+        # так как URL страницы должен поступить на сервер обязательно, иначе это ошибка
+
+        if page_url is not None:
             # Удаляем протокол и домен из URL
             page_url = page_url.split("//")[-1].split('/', 1)[-1]
             print(f"Processed page_url: {page_url}")
