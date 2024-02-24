@@ -13,6 +13,9 @@ document.addEventListener('click', (event) => {
 
         console.log(currentBlockNumber);
 
+        // Находим элемент с id "over-over-block-title"
+        var block_over_over_block_title = document.getElementById("over-over-block-title");
+
         // Вызываем функцию для выделения блока
         highlightBlock(currentBlockNumber);
 
@@ -21,9 +24,59 @@ document.addEventListener('click', (event) => {
 
         // console.log(currentPageUrl)
 
+        // Проверяем, существует ли элемент с таким id
+        if (block_over_over_block_title) {
+            // Устанавливаем значение свойства justify-content в space-around
+            block_over_over_block_title.style.justifyContent = "space-around";
+
+            // Находим элемент с id "synchronization-info-of-block"
+            var synchronizationInfoBlock = document.getElementById("synchronization-info-of-block");
+
+            // Если блок уже существует и в нем есть содержимое, удаляем его
+            if (synchronizationInfoBlock && synchronizationInfoBlock.childNodes.length > 0) {
+                synchronizationInfoBlock.innerHTML = '';
+            } else {
+                // Если блок еще не существует или пустой, создаем новый элемент div
+                synchronizationInfoBlock = document.createElement("div");
+
+                // Задаем id для нового элемента
+                synchronizationInfoBlock.id = "synchronization-info-of-block";
+
+                // Добавляем новый элемент внутрь блока с id "over-over-block-title"
+                block_over_over_block_title.appendChild(synchronizationInfoBlock);
+            }
+
+            // Создаем кнопку синхронизации
+            var button_synchronization = document.createElement("button");
+
+            // Устанавливаем id для кнопки
+            button_synchronization.id = "button-synchronization-info-of-block";
+
+            // Добавляем атрибуты и стили для кнопки
+            button_synchronization.innerHTML = '<img src="/static/images/synchronization.ico" style="height: 50px;" />';
+            button_synchronization.setAttribute("title", "Синхронизировать данные");
+
+            // Добавляем атрибут title для отображения текста при наведении
+            button_synchronization.setAttribute("title", "Синхронизировать данные");
+
+            // Назначаем функцию submitLineNumber на событие клика на кнопку синхронизации
+            button_synchronization.onclick = function () {
+                // Отправляем данные о блоке и ссылку на текущую страницу на сервер
+                submitLineNumber(currentBlockNumber, currentPageUrl);
+
+                // var blockId = event.target.id.substring(5);
+                blockId = event.target.id.substring(5);
+                updateBlockInfo(blockId);
+            };
+
+            // Добавляем кнопку внутрь блока "synchronization-info-of-block"
+            synchronizationInfoBlock.appendChild(button_synchronization);
+        }
+
         // Отправляем данные о блоке и ссылку на текущую страницу на сервер
         submitLineNumber(currentBlockNumber, currentPageUrl);
 
+        // var blockId = event.target.id.substring(5);
         blockId = event.target.id.substring(5);
         updateBlockInfo(blockId);
     }
