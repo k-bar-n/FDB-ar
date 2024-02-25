@@ -11,18 +11,7 @@
       <div id="grid-container" style="grid-template-columns: 20px repeat(9, 1fr);"></div>
       <!-- <div class="resizer" id="resizer"></div> -->
     </div>
-    <div id="right-block">
-      <div id="block-info">
-        <div id="over-over-block-title">
-          <div id="over-block-title">
-            <h2 id="block-title">Выберите контейнер</h2>
-            <p id="block-content">Информация о содержимом контейнера...</p>
-          </div>
-        </div>
-        <div id="info-of-block"></div>
-        <div id="rabota-s-kolichestvom"></div>
-      </div>
-    </div>
+    {% include "right-block.html" %}
   </div>
 
   <script>

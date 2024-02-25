@@ -132,13 +132,6 @@ def index_map_stellazh3_shelf3():
 # -----------------------------------------------
 
 
-# Имя файла определено как глобальная переменная
-CSV_FILE_NAME = 'Krepozh.csv'
-
-
-# -----------------------------------------------
-
-
 # Функция для обработки ссылки на страницу
 def process_page_url(page_url, block_number):
     if page_url == "map/stellazh1":
@@ -165,6 +158,13 @@ def process_page_url(page_url, block_number):
         block_number = (int(block_number) + 200)
     print("Inside condition (Внутреннее состояние) block_number:", block_number)
     return block_number
+
+
+# -----------------------------------------------
+
+
+# Имя файла определено как глобальная переменная
+CSV_FILE_NAME = 'Krepozh.csv'
 
 
 # -----------------------------------------------
