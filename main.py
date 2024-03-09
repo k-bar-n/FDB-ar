@@ -209,17 +209,24 @@ def over_zapusk_read_csv(block_number):
     data_csv_row = zapusk_read_csv(block_number)  # Читаем строку из CSV файла
 
     # Инициализация переменных для данных из CSV
-    material, tipe, standard, diameter, length, quantity = "", "", "", "", "", ""
+    material, tipe, standard, diameter, length, quantity, magazin, site = "", "", "", "", "", "", "", ""
 
     if data_csv_row:  # Проверяем наличие данных из CSV
         # Извлекаем данные из строки CSV
         print(f"Data from zapusk_read_csv: {data_csv_row}")
-        material, tipe, standard, diameter, length, quantity = data_csv_row[5:11]
+        material, tipe, standard, diameter, length, quantity, magazin, site = data_csv_row[5:13]
         print(material, "-", tipe, "-", standard, "-",
               diameter, "-", length, "-", quantity)
 
-    s_over_zapusk_read_csv = {'data_csv_row': data_csv_row, 'material': material, 'tipe': tipe, 'standard': standard,
-                              'diameter': diameter, 'length': length, 'quantity': quantity}
+    s_over_zapusk_read_csv = {'data_csv_row': data_csv_row,
+                              'material': material,
+                              'tipe': tipe,
+                              'standard': standard,
+                              'diameter': diameter,
+                              'length': length,
+                              'quantity': quantity,
+                              'magazin': magazin,
+                              'site': site}
 
     return s_over_zapusk_read_csv
 
@@ -305,6 +312,8 @@ def receiving_data_from_server():
         diameter = s_over_zapusk_read_csv_s['diameter']
         length = s_over_zapusk_read_csv_s['length']
         quantity = s_over_zapusk_read_csv_s['quantity']
+        magazin = s_over_zapusk_read_csv_s['magazin']
+        site = s_over_zapusk_read_csv_s['site']
 
         return jsonify({
             'success': True,
@@ -315,6 +324,8 @@ def receiving_data_from_server():
             'diameter': diameter,
             'length': length,
             'quantity': quantity,
+            'magazin': magazin,
+            'site': site,
             'page_url': page_url
         })
 
@@ -368,6 +379,8 @@ def check():
             diameter = s_over_zapusk_read_csv_s['diameter']
             length = s_over_zapusk_read_csv_s['length']
             quantity = s_over_zapusk_read_csv_s['quantity']
+            magazin = s_over_zapusk_read_csv_s['magazin']
+            site = s_over_zapusk_read_csv_s['site']
 
             return jsonify({
                 'success': True,
@@ -378,6 +391,8 @@ def check():
                 'diameter': diameter,
                 'length': length,
                 'quantity': quantity,
+                'magazin': magazin,
+                'site': site,
                 'page_url': page_url
             })
 
