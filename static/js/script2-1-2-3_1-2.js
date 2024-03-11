@@ -1,15 +1,15 @@
 // Функция для генерации сетки с номерами блоков
 function generateGrid(columns, rows) {
-    const gridContainer = document.getElementById('grid-container');
+    var gridContainer = document.getElementById('grid-container');
 
     // Генерация цифровой метки слева
-    const lettersRow = document.createElement('div');
+    var lettersRow = document.createElement('div');
     lettersRow.className = 'grid-row';
     lettersRow.style.width = "20px";
     gridContainer.appendChild(lettersRow);
 
     for (let i = 0; i <= rows; i++) {
-        const letterItem = document.createElement('div');
+        var letterItem = document.createElement('div');
 
         if (window.location.href.includes('stellazh1')) {
             letterItem.className = 'grid-item-2-1';
@@ -28,19 +28,19 @@ function generateGrid(columns, rows) {
     }
 
     for (let i = 1; i <= columns; i++) {
-        const rowContainer = document.createElement('div');
+        var rowContainer = document.createElement('div');
         rowContainer.className = 'grid-row';
         gridContainer.appendChild(rowContainer);
 
         // Генерация буквенной метки сверху
-        const numberItem = document.createElement('div');
+        var numberItem = document.createElement('div');
         numberItem.className = 'grid-item-2-2';
         // numberItem.textContent = String.fromCharCode(410 + i);
         numberItem.textContent = String.fromCharCode(1039 + i);
         rowContainer.appendChild(numberItem);
 
         for (let j = 1; j <= rows; j++) {
-            const gridItem = document.createElement('button');
+            var gridItem = document.createElement('button');
             gridItem.className = 'grid-item';
 
             let blockNumber = 0;
@@ -57,7 +57,7 @@ function generateGrid(columns, rows) {
             // если вы хотите посмотреть в блоке его blockNumber а не blockId, раскомментируйте вторую из последующих строк
             // если наоброт, то наоборот
 
-            const blockId = String.fromCharCode(1039 + i) + j;
+            var blockId = String.fromCharCode(1039 + i) + j;
             // const blockId = blockNumber;
             // const blockId = (String.fromCharCode(1039 + i) + j) + " " + blockNumber;
 

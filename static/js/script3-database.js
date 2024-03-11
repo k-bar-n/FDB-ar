@@ -20,7 +20,7 @@ document.addEventListener('click', (event) => {
         highlightBlock(currentBlockNumber);
 
         // Получаем ссылку на текущую страницу
-        const currentPageUrl = getСurrentPageUrl();
+        var currentPageUrl = getСurrentPageUrl();
 
         // console.log(currentPageUrl)
 
@@ -121,8 +121,8 @@ function displayBlockInfo(data) {
     }
 
     // Обновляем отображение информации о блоке
-    const blockInfoHTML = generateBlockInfoHTML(data);
-    const infoOfBlock = document.getElementById('info-of-block');
+    var blockInfoHTML = generateBlockInfoHTML(data);
+    var infoOfBlock = document.getElementById('info-of-block');
     if (infoOfBlock) {
         // Добавляем класс для плавного появления
         infoOfBlock.classList.add('info-fade-in');
@@ -139,23 +139,27 @@ function displayBlockInfo(data) {
 
 // Генерирует HTML-разметку для информации о блоке на основе переданных данных.
 function generateBlockInfoHTML(data) {
-    const materialInfo = data.material ? data.material : `<span style="font-weight: bold; color: red;">Данных о материале не найдено</span>`;
-    const tipeInfo = data.tipe ? data.tipe : `<span style="font-weight: bold; color: red;">Данных о типе не найдено</span>`;
-    const standardInfo = data.standard ? data.standard : `<span style="font-weight: bold; color: red;">Данных о стандарте не найдено</span>`;
-    const diameterInfo = data.diameter ? data.diameter : `<span style="font-weight: bold; color: red;">Данных о диаметре, мм не найдено</span>`;
-    const lengthInfo = data.length ? data.length : `<span style="font-weight: bold; color: red;">Данных о длине, мм не найдено</span>`;
-    const quantityInfo = data.quantity ? data.quantity : `<span style="font-weight: bold; color: red;">Данных о количестве, шт не найдено</span>`;
-    const magazinInfo = data.magazin ? data.magazin : `<span style="font-weight: bold; color: red;">Данных о магазине не найдено</span>`;
-    const siteLink = data.site ? `<a href="${data.site}" target="_blank" style="font-weight: bolder; display: flex;" class="data-about-the-block-op ssylka2">Сайт</a>` : `<span style="font-weight: bold; color: red;">Данных о сайте не найдено</span>`;
+    var materialInfo = data.material ? data.material :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var tipeInfo = data.tipe ? data.tipe :              `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var standardInfo = data.standard ? data.standard :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var diameterInfo = data.diameter ? data.diameter :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var lengthInfo = data.length ? data.length :        `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var quantityInfo = data.quantity ? data.quantity :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var magazinInfo = data.magazin ? data.magazin :     `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
     
+    var siteLink = data.site ? `<a href="${data.site}" target="_blank" style="font-weight: bolder;" class="data-about-the-block-opisanie ssylka2">Сайт</a>` :
+    `<span class="data-about-the-block-opisanie" id="not_found_error">Данных о
+        <span class="data-about-the-block-opisanie" style="font-style: italic; text-decoration: underline;">сайте</span>
+    не найдено</span>`;
+
     return `
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Материал:</a> &nbsp; ${materialInfo}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Тип:</a> &nbsp; ${tipeInfo}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Стандарт:</a> &nbsp; ${standardInfo}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Диаметр, мм:</a> &nbsp; ${diameterInfo}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Длина, мм:</a> &nbsp; ${lengthInfo}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Количество, шт:</a> &nbsp; ${quantityInfo}</p>
-        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-op">Магазин:</a> &nbsp; ${magazinInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Материал:</a> &nbsp; ${materialInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Тип:</a> &nbsp; ${tipeInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Стандарт:</a> &nbsp; ${standardInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Диаметр, мм:</a> &nbsp; ${diameterInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Длина, мм:</a> &nbsp; ${lengthInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Количество, шт:</a> &nbsp; ${quantityInfo}</p>
+        <p class="data-about-the-block"><a style="font-weight: bolder;" class="data-about-the-block-opisanie">Магазин:</a> &nbsp; ${magazinInfo}</p>
         <p class="data-about-the-block">${siteLink}</p>
     `;
 }
@@ -169,18 +173,18 @@ function updateBlockInfo(data) {
     }
 
     // Устанавливаем заголовок и содержимое блока в зависимости от типа
-    const blockId = getCurrentBlockId();
-    const blockType1 = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
-    const blockType2 = window.location.href.includes('stellazh1') ? 'контейнера' : 'ячейки';
+    var blockId = getCurrentBlockId();
+    var blockType1 = window.location.href.includes('stellazh1') ? 'Контейнер' : 'Ячейка';
+    var blockType2 = window.location.href.includes('stellazh1') ? 'контейнера' : 'ячейки';
 
-    const blockInfo = {
+    var blockInfo = {
         title: `${blockType1} ${blockId}`,
         content: `Информация о содержимом ${blockType2} ${blockId}:`,
     };
 
     // Обновляем отображение информации о блоке
-    const blockTitle = document.getElementById('block-title');
-    const blockContent = document.getElementById('block-content');
+    var blockTitle = document.getElementById('block-title');
+    var blockContent = document.getElementById('block-content');
     if (blockTitle && blockContent) {
         blockTitle.innerText = blockInfo.title;
         blockContent.innerText = blockInfo.content;
@@ -188,7 +192,7 @@ function updateBlockInfo(data) {
         console.error('Элемент с id "block-title" или "block-content" не найден.');
     }
 
-    const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+    var buttonsContainer = document.getElementById('rabota-s-kolichestvom');
     if (!buttonsContainer) {
         console.error('Элемент с id "rabota-s-kolichestvom" не найден.');
         return;
@@ -200,20 +204,20 @@ function updateBlockInfo(data) {
 
 // Функция для создания кнопок "Взять" и "Положить" динамически
 function createButtons_Vzyat_Polozhit() {
-    const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+    var buttonsContainer = document.getElementById('rabota-s-kolichestvom');
 
     // Удаляем все предыдущие кнопки и элементы внутри контейнера
     buttonsContainer.innerHTML = '';
 
     // Создаем и добавляем кнопки "Взять" и "Положить" в контейнер,
     // также удаляем существующие кнопки и элементы перед созданием новых.
-    const existingButtons = document.querySelectorAll('.dynamic-button');
+    var existingButtons = document.querySelectorAll('.dynamic-button');
     existingButtons.forEach(button => {
         buttonsContainer.removeChild(button);
     });
 
     // Создаем кнопку "Взять"
-    const btnTake = document.createElement('button');
+    var btnTake = document.createElement('button');
     btnTake.className = 'dynamic-button';
     btnTake.innerText = 'Взять';
     btnTake.onclick = () => {
@@ -223,7 +227,7 @@ function createButtons_Vzyat_Polozhit() {
     buttonsContainer.appendChild(btnTake);
 
     // Создаем кнопку "Положить"
-    const btnPut = document.createElement('button');
+    var btnPut = document.createElement('button');
     btnPut.className = 'dynamic-button';
     btnPut.innerText = 'Положить';
     btnPut.onclick = () => {
@@ -240,14 +244,14 @@ function createButtons_Vzyat_Polozhit() {
 // Функция для отображения поля ввода количества
 function showQuantityInput(action) {
     // Устанавливает текст и видимость поля ввода в зависимости от выбранного действия.
-    const quantityInputContainer = document.getElementById('quantity-input-container');
+    var quantityInputContainer = document.getElementById('quantity-input-container');
 
     if (!quantityInputContainer) {
         console.error('Элемент с id "quantity-input-container" не найден.');
         return;
     }
 
-    const btnConfirm = document.getElementById('btn-confirm');
+    var btnConfirm = document.getElementById('btn-confirm');
     if (!btnConfirm) {
         console.error('Элемент с id "btn-confirm" не найден.');
         return;
@@ -275,28 +279,28 @@ function fadeIn(element) {
 
 // Функция для создания кнопок, полей ввода и других элементов динамически
 function createDynamicElements() {
-    const buttonsContainer = document.getElementById('rabota-s-kolichestvom');
+    var buttonsContainer = document.getElementById('rabota-s-kolichestvom');
 
     // Создаем и добавляем поле ввода и кнопку "Готово",
 
     // также удаляем существующие кнопки и элементы перед созданием новых.
-    const quantityInputContainer = document.getElementById('quantity-input-container');
+    var quantityInputContainer = document.getElementById('quantity-input-container');
     if (quantityInputContainer) {
         quantityInputContainer.parentNode.removeChild(quantityInputContainer);
     }
 
 
     // Создаем контейнер для поля ввода и кнопки "Готово"
-    const newQuantityInputContainer = document.createElement('div');
+    var newQuantityInputContainer = document.createElement('div');
     newQuantityInputContainer.id = 'quantity-input-container';
 
     // Создаем поле ввода
-    const quantityInput = document.createElement('input');
+    var quantityInput = document.createElement('input');
     quantityInput.type = 'number';
     quantityInput.id = 'quantity-input';
 
     // Создаем кнопку "Готово"
-    const btnConfirm = document.createElement('button');
+    var btnConfirm = document.createElement('button');
     btnConfirm.id = 'btn-confirm';
     btnConfirm.innerText = 'Готово';
     btnConfirm.onclick = performAction_Vzyat_Polozhit;
@@ -319,26 +323,26 @@ function performAction_Vzyat_Polozhit() {
     // Проверка существования элемента
 
     // Получаем текущий blockNumber
-    const blockNumber = currentBlockNumber;
+    var blockNumber = currentBlockNumber;
     console.log(blockNumber)
 
     // Получаем ссылку на текущую страницу
-    const currentPageUrl = getСurrentPageUrl();
+    var currentPageUrl = getСurrentPageUrl();
 
-    const btnConfirm = document.getElementById('btn-confirm');
+    var btnConfirm = document.getElementById('btn-confirm');
     if (!btnConfirm) {
         console.error('Элемент с id "btn-confirm" не найден.');
         return;
     }
 
-    const quantityInput = document.getElementById('quantity-input');
+    var quantityInput = document.getElementById('quantity-input');
     if (!quantityInput) {
         console.error('Элемент с id "quantity-input" не найден.');
         return;
     }
 
-    const action = btnConfirm.dataset.action || '';
-    const blockId = getCurrentBlockId();
+    var action = btnConfirm.dataset.action || '';
+    var blockId = getCurrentBlockId();
 
     var block = document.getElementById(`block${blockId}`);
 
@@ -385,7 +389,7 @@ function performAction_Vzyat_Polozhit() {
     submitcheck(blockNumber, currentPageUrl, quantity);
 
     // Скрываем поле ввода
-    const quantityInputContainer = document.getElementById('quantity-input-container');
+    var quantityInputContainer = document.getElementById('quantity-input-container');
     if (quantityInputContainer) {
         fadeOut(quantityInputContainer);
     }
@@ -424,7 +428,7 @@ function submitcheck(blockNumber, currentPageUrl, quantity) {
 function fadeOut(element) {
     // Плавно уменьшает прозрачность элемента для создания эффекта исчезновения
     let opacity = 1;
-    const interval = setInterval(() => {
+    var interval = setInterval(() => {
         if ((opacity -= 0.1) < 0) {
             clearInterval(interval);
             element.style.display = 'none';

@@ -38,7 +38,7 @@ let currentPageUrl = null;
 
 // Функция для получения ссылки на текущую страницу
 function getСurrentPageUrl() {
-    const currentPageUrl = window.location.href;
+    currentPageUrl = window.location.href;
     
     console.log(currentPageUrl)
     return currentPageUrl;

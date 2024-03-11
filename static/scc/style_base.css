@@ -316,3 +316,9 @@ main {
     font-weight: bold;
     /* background-color: #dbcf2a; */
 }
+
+#not_found_error {
+    font-weight: bold;
+    color: red;
+    cursor: not-allowed;
+}
