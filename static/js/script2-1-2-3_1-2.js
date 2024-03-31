@@ -75,6 +75,19 @@ function generateGrid(columns, rows) {
 
             gridItem.textContent = blockId;
 
+
+            /*
+            // Создаем элемент span
+            var spanElement = document.createElement('span');
+            // Устанавливаем текст внутри span
+            spanElement.textContent = blockId;
+            // Очищаем содержимое gridItem
+            gridItem.innerHTML = '';
+            // Добавляем span внутрь gridItem
+            gridItem.appendChild(spanElement);
+            */
+
+
             /*
 
             // !!! !!! !!!

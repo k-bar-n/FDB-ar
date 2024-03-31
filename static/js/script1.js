@@ -93,7 +93,7 @@ setInterval("AccessClipboardData()", 300);
 
 
 // запрещает нажатие правой кнопки мыши на сайте
-document.oncontextmenu = cmenu; function cmenu() { return false; }
+// document.oncontextmenu = cmenu; function cmenu() { return false; }
 
 
 

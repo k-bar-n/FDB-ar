@@ -5,7 +5,7 @@ const rightBlock = document.getElementById('right-block');
 
 // Функция для изменения background-color у выбранного блока
 function highlightBlock(blockNumber) {
-    console.log('Вызвана функция highlightBlock с blockNumber:', blockNumber);
+    // console.log('Вызвана функция highlightBlock с blockNumber:', blockNumber);
 
     // Сначала снимаем выделение со всех блоков
     const allBlocks = document.querySelectorAll('.grid-item');
@@ -28,7 +28,7 @@ let blockId = null;
 
 // Функция получения текущего ID выбранного блока
 function getCurrentBlockId() {
-    console.log(blockId)
+    // console.log(blockId)
     return blockId;
 }
 
@@ -40,7 +40,7 @@ let currentPageUrl = null;
 function getСurrentPageUrl() {
     currentPageUrl = window.location.href;
     
-    console.log(currentPageUrl)
+    // console.log(currentPageUrl)
     return currentPageUrl;
 }
 

@@ -11,7 +11,7 @@ document.addEventListener('click', (event) => {
         // Получаем текущий blockNumber
         currentBlockNumber = event.target.dataset.number;
 
-        console.log(currentBlockNumber);
+        // console.log(currentBlockNumber);
 
         // Находим элемент с id "over-over-block-title"
         var block_over_over_block_title = document.getElementById("over-over-block-title");
@@ -112,7 +112,7 @@ function submitLineNumber(blockNumber, currentPageUrl) {
 // Функция для обновления информации о блоке на странице с анимацией
 function displayBlockInfo(data) {
     dataquantity = data.quantity;
-    console.log("data.quantity = " + "!" + dataquantity + "!" + " (Если между восклицательными знаками ничего нет, то значит значение data.quantity)")
+    // console.log("data.quantity = " + "!" + dataquantity + "!" + " (Если между восклицательными знаками ничего нет, то значит значение data.quantity)")
 
     // Проверяем, есть ли данные
     if (!data) {
@@ -324,7 +324,7 @@ function performAction_Vzyat_Polozhit() {
 
     // Получаем текущий blockNumber
     var blockNumber = currentBlockNumber;
-    console.log(blockNumber)
+    // console.log(blockNumber)
 
     // Получаем ссылку на текущую страницу
     var currentPageUrl = getСurrentPageUrl();
@@ -365,7 +365,7 @@ function performAction_Vzyat_Polozhit() {
         return;
     }
 
-    console.log(dataquantity, quantity)
+    // console.log(dataquantity, quantity)
 
     // Выполняем действие в зависимости от выбранного "Взять" или "Положить"
     if (action === 'Взять') {

@@ -156,7 +156,7 @@ def process_page_url(page_url, block_number):
         block_number = (int(block_number) + 180)
     elif page_url == "map/stellazh3/shelf3":
         block_number = (int(block_number) + 200)
-    print("Inside condition (Внутреннее состояние) block_number:", block_number)
+    # print("Inside condition (Внутреннее состояние) block_number:", block_number)
     return block_number
 
 
@@ -213,12 +213,49 @@ def over_zapusk_read_csv(block_number):
 
     if data_csv_row:  # Проверяем наличие данных из CSV
         # Извлекаем данные из строки CSV
-        print(f"Data from zapusk_read_csv: {data_csv_row}")
+        # print(f"Data from zapusk_read_csv: {data_csv_row}")
         material, tipe, standard, diameter, length, quantity, magazin, site = data_csv_row[5:13]
-        print(material, "-", tipe, "-", standard, "-",
-              diameter, "-", length, "-", quantity)
+        # print(material, "-", tipe, "-", standard, "-", diameter, "-", length, "-", quantity)
 
     s_over_zapusk_read_csv = {'data_csv_row': data_csv_row,
+                              'material': material,
+                              'tipe': tipe,
+                              'standard': standard,
+                              'diameter': diameter,
+                              'length': length,
+                              'quantity': quantity,
+                              'magazin': magazin,
+                              'site': site}
+
+    return s_over_zapusk_read_csv
+
+
+def over_zapusk_read_csv_founder(block_number):
+    data_csv_row = zapusk_read_csv(block_number)  # Читаем строку из CSV файла
+
+    # Инициализация переменных для данных из CSV
+    (stelazh_nomer, polka_nomer, stroka_nomer, stolbets_nomer, color_konteynera,
+     material, tipe, standard, diameter, length, quantity, magazin, site)\
+        = "", "", "", "", "", "", "", "", "", "", "", "", ""
+
+    if data_csv_row:  # Проверяем наличие данных из CSV
+        # Извлекаем данные из строки CSV
+        # print(f"Data from zapusk_read_csv: {data_csv_row}")
+        stelazh_nomer, polka_nomer, stroka_nomer, stolbets_nomer, color_konteynera = data_csv_row[0:5]
+        material, tipe, standard, diameter, length, quantity, magazin, site = data_csv_row[5:13]
+        '''
+        print(stelazh_nomer, "-", polka_nomer, "-", stroka_nomer, "-",
+              stolbets_nomer, "-", color_konteynera, "-",
+              material, "-", tipe, "-", standard, "-",
+              diameter, "-", length, "-", quantity)
+        '''
+
+    s_over_zapusk_read_csv = {'data_csv_row': data_csv_row,
+                              'stelazh_nomer': stelazh_nomer,
+                              'polka_nomer': polka_nomer,
+                              'stroka_nomer': stroka_nomer,
+                              'stolbets_nomer': stolbets_nomer,
+                              'color_konteynera': color_konteynera,
                               'material': material,
                               'tipe': tipe,
                               'standard': standard,
@@ -294,7 +331,7 @@ def receiving_data_from_server():
         if page_url is not None:  # Проверяем наличие URL страницы
             # Удаляем протокол и домен из URL
             page_url = page_url.split("//")[-1].split('/', 1)[-1]
-            print(f"Processed page_url: {page_url}")
+            # print(f"Processed page_url: {page_url}")
 
             # print(f"Первоначальное значение block_number = {block_number}")
             # Обновляем значение block_number
@@ -357,7 +394,7 @@ def check():
         if page_url is not None:
             # Удаляем протокол и домен из URL
             page_url = page_url.split("//")[-1].split('/', 1)[-1]
-            print(f"Processed page_url: {page_url}")
+            # print(f"Processed page_url: {page_url}")
 
             # print(f"Первоначальное значение block_number = {block_number}")
             # Обновляем значение block_number
@@ -397,6 +434,107 @@ def check():
             })
 
     except Exception as e:  # Обработка исключений
+        return jsonify({'error': str(e)})  # Возвращаем ошибку в формате JSON
+
+
+# -----------------------------------------------
+
+
+# Маршрут для обработки запроса /founder POST
+@app.route('/founder', methods=['POST'])
+def founder():
+    try:
+        data = request.get_json()  # Получаем данные из POST запроса
+        data_block_number = int(data.get('line_number'))
+
+        data_material = data.get('material')
+        data_tipe = data.get('tipe')
+        data_standard = data.get('standard')
+        data_diameter = data.get('diameter').replace('.', ',')
+        data_length = data.get('length').replace('.', ',')
+
+        # print(data_material, data_tipe, data_standard, data_diameter, data_length)
+
+        if data_block_number is None:  # Проверяем наличие номера блока
+            return jsonify({'error': 'Не указан ни номер блока, ни номер строки'})
+
+        # block_number = process_page_url(page_url, block_number)
+
+        s_over_zapusk_read_csv_s = over_zapusk_read_csv_founder(data_block_number)
+
+        # print(s_over_zapusk_read_csv_s)
+
+        stelazh_nomer = s_over_zapusk_read_csv_s['stelazh_nomer']
+        polka_nomer = s_over_zapusk_read_csv_s['polka_nomer']
+        stroka_nomer = s_over_zapusk_read_csv_s['stroka_nomer']
+        stolbets_nomer = s_over_zapusk_read_csv_s['stolbets_nomer']
+        color_konteynera = s_over_zapusk_read_csv_s['color_konteynera']
+        material = s_over_zapusk_read_csv_s['material']
+        data_csv_row = s_over_zapusk_read_csv_s['data_csv_row']
+        tipe = s_over_zapusk_read_csv_s['tipe']
+        standard = s_over_zapusk_read_csv_s['standard']
+        diameter = s_over_zapusk_read_csv_s['diameter']
+        length = s_over_zapusk_read_csv_s['length']
+        quantity = s_over_zapusk_read_csv_s['quantity']
+        magazin = s_over_zapusk_read_csv_s['magazin']
+        site = s_over_zapusk_read_csv_s['site']
+
+        replacements = {
+            'A': 'А', 'B': 'Б', 'C': 'В', 'D': 'Г', 'E': 'Д',
+            'F': 'Е', 'G': 'Ж', 'H': 'З', 'I': 'И', 'J': 'К',
+            'K': 'Л', 'L': 'М', 'M': 'Н', 'N': 'О', 'O': 'П',
+            'P': 'Р', 'Q': 'С', 'R': 'Т', 'S': 'У', 'T': 'Ф',
+            'U': 'Х', 'V': 'Ц', 'W': 'Ч', 'X': 'Ш', 'Y': 'Щ',
+            'Z': 'Э', 'a': 'а', 'b': 'б', 'c': 'в', 'd': 'г',
+            'e': 'д', 'f': 'е', 'g': 'ж', 'h': 'з', 'i': 'и',
+            'j': 'к', 'k': 'л', 'l': 'м', 'm': 'н', 'n': 'о',
+            'o': 'п', 'p': 'р', 'q': 'с', 'r': 'т', 's': 'у',
+            't': 'ф', 'u': 'х', 'v': 'ц', 'w': 'ч', 'x': 'ш',
+            'y': 'щ', 'z': 'э'
+        }
+        stolbets_nomer = ''.join(replacements.get(char, char) for char in stolbets_nomer)
+
+        proverka = 1
+
+        if data_material != "" and data_material != "*":
+            if data_material != material:
+                proverka = 0
+        if data_tipe != "" and data_tipe != "*":
+            if data_tipe != tipe:
+                proverka = 0
+        if data_standard != "" and data_standard != "*":
+            if data_standard != standard:
+                proverka = 0
+        if data_diameter != "" and data_diameter != "*":
+            if data_diameter != diameter:
+                proverka = 0
+        if data_length != "" and data_length != "*":
+            if data_length != length:
+                proverka = 0
+
+        # print(f"proverka proverka proverka proverka proverka {proverka}")
+
+        return jsonify({
+            'success': True,
+            'stelazh_nomer': stelazh_nomer,
+            'polka_nomer': polka_nomer,
+            'stroka_nomer': stroka_nomer,
+            'stolbets_nomer': stolbets_nomer,
+            'color_konteynera': color_konteynera,
+            'data_csv_row': data_csv_row,
+            'material': material,
+            'tipe': tipe,
+            'standard': standard,
+            'diameter': diameter,
+            'length': length,
+            'quantity': quantity,
+            'magazin': magazin,
+            'site': site,
+            'booler': proverka
+        })
+
+    except Exception as e:  # Обработка исключений
+        print(f"Произошла ошибка: {str(e)}")
         return jsonify({'error': str(e)})  # Возвращаем ошибку в формате JSON
 
 

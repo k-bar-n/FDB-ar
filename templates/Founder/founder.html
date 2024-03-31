@@ -1,9 +1,168 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  founder
+  Найти крепёж
 {% endblock %}
 
 {% block content %}
-  <h1>founder</h1>
+  <div style="display: flex; justify-content: center;">
+    <h1>Найти крепёж</h1>
+
+    <!-- Иконка с вопросиком -->
+    <div class="help-icon">
+      <img src="{{ url_for('static', filename = 'images/circle_customer_help_info_information_service_support_icon.ico') }}" alt="Help Icon" id="help-icon" />
+    </div>
+  </div>
+
+  <!-- Объяснение работы страницы -->
+  <div id="explanation-popup" class="explanation-popup">
+    <!-- Здесь располагается текст объяснения -->
+    <p>Страница "Найти крепёж" предоставляет инструмент для поиска крепежных изделий по различным параметрам, таким как материал, тип, стандарт, диаметр и длина. Просто заполните нужные поля фильтра, нажмите кнопку "Найти", чтобы получить результаты. Кнопка "Сбросить параметры" очищает фильтры, а "Очистить вывод фильтра" удаляет результаты предыдущих поисков из таблицы. Если оставить поля ввода пустыми или ввести в них звёздочку «*», фильтр будет применяться ко всем возможным значениям этого параметра.</p>
+  </div>
+
+  <div style="display: flex; justify-content: center; width: 95vw; margin-left: auto; margin-right: auto; flex-direction: column;">
+    <div class="filter-container">
+      <div class="filter" style="display: flex; flex-direction: row; gap: 20px;">
+        <div class="filter-option">
+          <label for="material">Материал:</label>
+          <input type="text" id="material" list="materials" />
+          <datalist id="materials">
+            <option value="Нержавеющая сталь" />
+            <option value="Пластик" />
+            <option value="Сталь хим. оксид." />
+          </datalist>
+        </div>
+        <div class="filter-option">
+          <label for="tipe">Тип:</label>
+          <input type="text" id="tipe" list="tipes" />
+          <datalist id="tipes">
+            <option value="Винт"></option>
+            <option value="Гайка"></option>
+            <option value="Заклёпка"></option>
+            <option value="Шайба"></option>
+          </datalist>
+        </div>
+        <div class="filter-option">
+          <label for="standard">Стандарт:</label>
+          <input type="text" id="standard" list="standards" />
+          <datalist id="standards">
+            <option value="din 125"></option>
+            <option value="din 127"></option>
+            <option value="din 316"></option>
+            <option value="din 6923"></option>
+            <option value="din 7380"></option>
+            <option value="din 7985"></option>
+            <option value="din 7991"></option>
+            <option value="din 9021"></option>
+            <option value="din 9055"></option>
+            <option value="din 912"></option>
+            <option value="din 934"></option>
+            <option value="din 985"></option>
+            <option value="Вытяжная"></option>
+            <option value="Резьбовая"></option>
+            <option value="Резьбовая потайная"></option>
+          </datalist>
+        </div>
+        <div class="filter-option">
+          <label for="diameter">Диаметр (мм):</label>
+          <input type="text" id="diameter" list="diameters" />
+          <datalist id="diameters">
+            <option value="2"></option>
+            <option value="2,5"></option>
+            <option value="3"></option>
+            <option value="3,2"></option>
+            <option value="4"></option>
+            <option value="4,8"></option>
+            <option value="5"></option>
+          </datalist>
+        </div>
+        <div class="filter-option">
+          <label for="length">Длина (мм):</label>
+          <input type="text" id="length" />
+        </div>
+        <button class="filter-button" id="apply-filter">Найти</button>
+        <button class="filter-button" id="reset-filters">Сбросить параметры</button>
+        <button class="filter-button" id="clear-output">Очистить вывод фильтра</button>
+      </div>
+    </div>
+
+    <table class="table-founder">
+      <colgroup class="table-columns">
+        <col class="col-10vw" />
+        <col class="col-10vw" />
+        <col class="col-10vw" />
+        <col class="col-10vw" />
+        <col class="col-10vw" />
+        <col class="col-20vw" />
+        <col class="col-15vw" />
+        <col class="col-10vw" />
+      </colgroup>
+
+      <thead>
+        <tr class="header">
+          <th>Материал</th>
+          <th>Тип</th>
+          <th>Стандарт</th>
+          <th>Диаметр (мм)</th>
+          <th>Длина (мм)</th>
+          <th>Количество (шт)</th>
+          <th>Где находится</th>
+          <th>Магазин</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!--       
+        <tr class="odd">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="even">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="odd">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+             -->
+      </tbody>
+    </table>
+  </div>
+
+  <link href="{{ url_for('static', filename = 'scc/style_founder.css') }}" rel="stylesheet" type="text/css" />
+
+  <script src="{{ url_for('static', filename = 'js/script3-founder.js') }}" defer></script>
+
+  <script>
+    // JavaScript код для отображения всплывающего окна с объяснением
+    const helpIcon = document.getElementById('help-icon')
+    const explanationPopup = document.getElementById('explanation-popup')
+    
+    helpIcon.addEventListener('mouseenter', () => {
+      explanationPopup.style.display = 'flex'
+    })
+    
+    helpIcon.addEventListener('mouseleave', () => {
+      explanationPopup.style.display = 'none'
+    })
+  </script>
 {% endblock %}
