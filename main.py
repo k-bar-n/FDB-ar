@@ -42,14 +42,19 @@ def index_founder():
     return render_template("Founder/founder.html")
 
 
-@app.route("/page3")
-def index_page3():
-    return render_template("Page3/page3.html")
-
-
 @app.route("/map")
 def index_map():
     return render_template("Map/map.html")
+
+
+@app.route("/page3")
+def index_page3():
+    return render_template("list_zakupok/page3.html")
+
+
+@app.route("/list_zakupok")
+def index_list_zakupok():
+    return render_template("list_zakupok/list_zakupok.html")
 
 
 # -----------------------------------------------

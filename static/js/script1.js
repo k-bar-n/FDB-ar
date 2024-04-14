@@ -11,6 +11,7 @@ function redirectToAnotherPage4() {
     window.location.href = '/page3'
 }
 
+
 // Стеллажи
 function redirectToAnotherPage5() {
     window.location.href = '/map/stellazh1'
@@ -21,6 +22,12 @@ function redirectToAnotherPage6() {
 function redirectToAnotherPage7() {
     window.location.href = '/map/stellazh3'
 }
+
+
+function redirectToAnotherPage8() {
+    window.location.href = '/list_zakupok'
+}
+
 
 // Стеллаж 2
 function redirectToAnotherPage61() {
@@ -44,6 +51,7 @@ function redirectToAnotherPage66() {
 function redirectToAnotherPage67() {
     window.location.href = '/map/stellazh2/shelf7'
 }
+
 
 // Стеллаж 3
 function redirectToAnotherPage91() {

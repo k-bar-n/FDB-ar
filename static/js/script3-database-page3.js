@@ -3,8 +3,20 @@ function submitAnswers_page3() {
 
     // Проверка на заполнение поля формы
     if (line_number === '') {
-        alert('Заполните поле формы')
-        return
+        alert('Заполните поле формы');
+        return;
+    }
+
+    // Проверка на целое число
+    if (!Number.isInteger(Number(line_number))) {
+        alert('Введите целое число');
+        return;
+    }
+
+    // Проверка на положительное целое число
+    if (parseInt(line_number) <= 0) {
+        alert('Введите положительное целое число');
+        return;
     }
 
     // Отправить данные на сервер
@@ -17,8 +29,8 @@ function submitAnswers_page3() {
     })
         .then((response) => response.json())
         .then((data) => {
-            // Обновить содержимое блока <h3> с данными из сервера
-            document.getElementById('csv_data_row').innerText = data.data_csv_row
+            // Обновить содержимое блока <h3> с данными из сервера !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // document.getElementById('csv_data_row').innerText = data.data_csv_row
 
             // Вывести информацию в блок info-of-block
             document.getElementById('info-of-block').innerHTML = generateBlockInfoHTML(data)

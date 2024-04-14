@@ -179,6 +179,27 @@ footer:hover {
     transform: scale(1.1);
 }
 
+.but-menu-not-functional {
+    margin-left: 3vw;
+    margin-right: 3vw;
+    /* o */
+    width: auto;
+    height: 4.5vw;
+    /* o */
+    cursor: pointer;
+    /* o */
+    background-color: #a6a5a5;
+    font-size: 1.5vw;
+    text-align: center;
+    font-weight: bold;
+    /* border: none; */
+    border-color: #505050;
+    border-radius: 5vh;
+    border-width: 0.3vmin;
+    opacity: 1;
+    transition: 0.5s;
+}
+
 main {
     /* margin-top: 1vh; */
     flex: 1;

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  page3
+{% endblock %}
+
+{% block content %}
+  <!-- <script></script> -->
+
+  <h1>page3</h1>
+
+  <div class="wrapper">
+    <div class="input-line_number-container">
+      <input type="number" id="line_number" />
+    </div>
+
+    <br />
+
+    <div>
+      <button id="btn-confirm-of-input-line_number-container" onclick="submitAnswers_page3()">Отправить</button>
+    </div>
+
+    <div id="info-of-block" style="text-align: center;"></div>
+
+    <!-- <h3 id="csv_data_row"></h3> -->
+  </div>
+
+  <script src="{{ url_for('static', filename = 'js/script3-database-page3.js') }}" defer></script>
+
+  <link href="{{ url_for('static', filename = 'scc/style_stellazh.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  404 — not found
+{% endblock %}
+
+{% block content %}
+  <h2>The page is under construction...</h2>
+  <br />
+  <h2>Страница в разработке...</h2>
+  <br />
+  <img src="{{ url_for('static', filename = 'images/razrabotka.png') }}" style="width: 350px; margin-left: auto; margin-right: auto;" />
+
+  <link href="{{ url_for('static', filename = 'scc/style0.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
