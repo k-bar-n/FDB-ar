@@ -6,6 +6,7 @@ let dataquantity = null;
 
 // Функция для обработки событий клика по блоку
 document.addEventListener('click', (event) => {
+    // document.addEventListener('mouseover', (event) => {
     // Обрабатываем событие клика по блоку (grid-item)
     if (event.target.classList.contains('grid-item')) {
         // Получаем текущий blockNumber
@@ -139,16 +140,16 @@ function displayBlockInfo(data) {
 
 // Генерирует HTML-разметку для информации о блоке на основе переданных данных.
 function generateBlockInfoHTML(data) {
-    var materialInfo = data.material ? data.material :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    var tipeInfo = data.tipe ? data.tipe :              `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    var standardInfo = data.standard ? data.standard :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    var diameterInfo = data.diameter ? data.diameter :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    var lengthInfo = data.length ? data.length :        `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    var quantityInfo = data.quantity ? data.quantity :  `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    var magazinInfo = data.magazin ? data.magazin :     `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
-    
+    var materialInfo = data.material ? data.material : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var tipeInfo = data.tipe ? data.tipe : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var standardInfo = data.standard ? data.standard : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var diameterInfo = data.diameter ? data.diameter : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var lengthInfo = data.length ? data.length : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var quantityInfo = data.quantity ? data.quantity : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+    var magazinInfo = data.magazin ? data.magazin : `<span class="data-about-the-block-opisanie" id="not_found_error">Данных не найдено</span>`;
+
     var siteLink = data.site ? `<a href="${data.site}" target="_blank" style="font-weight: bolder;" class="data-about-the-block-opisanie ssylka2">Сайт</a>` :
-    `<span class="data-about-the-block-opisanie" id="not_found_error">Данных о
+        `<span class="data-about-the-block-opisanie" id="not_found_error">Данных о
         <span class="data-about-the-block-opisanie" style="font-style: italic; text-decoration: underline;">сайте</span>
     не найдено</span>`;
 
@@ -320,7 +321,6 @@ function createDynamicElements() {
 // Функция для выполнения действия в зависимости от выбора "Взять" или "Положить"
 function performAction_Vzyat_Polozhit() {
     // Выполняет действие (взять/положить) в зависимости от выбора пользователя.
-    // Проверка существования элемента
 
     // Получаем текущий blockNumber
     var blockNumber = currentBlockNumber;
@@ -329,12 +329,12 @@ function performAction_Vzyat_Polozhit() {
     // Получаем ссылку на текущую страницу
     var currentPageUrl = getСurrentPageUrl();
 
+    // Проверка существования элементов
     var btnConfirm = document.getElementById('btn-confirm');
     if (!btnConfirm) {
         console.error('Элемент с id "btn-confirm" не найден.');
         return;
     }
-
     var quantityInput = document.getElementById('quantity-input');
     if (!quantityInput) {
         console.error('Элемент с id "quantity-input" не найден.');
@@ -358,32 +358,42 @@ function performAction_Vzyat_Polozhit() {
         return;
     }
 
+
+
+    // console.log(`(${dataquantity}) (${quantity})`)
+
+
+
+    // Проверяем корректность значения quantity
+    let quantity = parseFloat(quantityInput.value);
+    // Проверяем, есть ли данные с сервера о количестве
+    if (dataquantity === '') {
+        alert('Данных о количестве не найдено, следовательно Вы не можете его изменить');
+        return;
+    }
+    // Проверяем корректность значения quantity
     // Проверяем, что введено натуральное число
-    let quantity = parseInt(quantityInput.value);
-    if (isNaN(quantity) || quantity <= 0) {
+    else if (isNaN(quantity) || quantity !== Math.floor(quantity) || quantity <= 0) {
         alert('Пожалуйста, введите натуральное число.');
         return;
     }
 
-    // console.log(dataquantity, quantity)
-
     // Выполняем действие в зависимости от выбранного "Взять" или "Положить"
-    if (action === 'Взять') {
+    else if (action === 'Взять') {
+        // Проверяем, данные с сервера о количестве меньше чем то сколько мы хотим взять
         if (quantity > dataquantity) {
             alert('Нельзя взять больше, чем есть в наличии.');
-            return; // Убрать эту строку, чтобы код продолжал выполнение
+            return;
         }
-        quantity = (-1) * quantity;
-    } else if (action === 'Положить') {
+        else {
+            quantity = (-1) * quantity;
+        }
+    }
+    else if (action === 'Положить') {
         quantity = quantity;
     }
 
 
-    // Проверяем корректность значения quantity
-    if (quantity === null || isNaN(quantity)) {
-        console.error('Некорректное значение quantity:', quantity);
-        return;
-    }
 
     // Отправляем данные о блоке и ссылку на текущую страницу на сервер
     submitcheck(blockNumber, currentPageUrl, quantity);
